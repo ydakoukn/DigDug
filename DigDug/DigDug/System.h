@@ -7,6 +7,7 @@
 #include <Windows.h>
 #include <memory>
 #include "GameController.h"
+#include "SceneManager.h"
 namespace{
 	const bool FULL_SCREEN = false;
 	const bool VSYNC_ENABLED = true;
@@ -33,6 +34,7 @@ class System
 
 	private:
 
+		std::unique_ptr<SceneManager> m_sceneManager;
 		LPCWSTR m_appName;
 		HINSTANCE m_hInstance;
 		HWND m_hWnd;

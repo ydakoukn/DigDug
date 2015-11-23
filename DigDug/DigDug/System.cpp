@@ -1,6 +1,6 @@
 #include "System.h"
 #include "GameController.h"
-
+#include <Windows.h>
 System::System(){
 
 
@@ -25,6 +25,8 @@ bool System::Initialize(){
 
 	InitializeWindows(screen);
 
+	m_sceneManager = std::make_unique<SceneManager>();
+	m_sceneManager->Initialize();
 
 	return true;
 
@@ -34,7 +36,7 @@ bool System::Initialize(){
 void System::Shutdown(){
 
 	this->ShutdownWindows();
-
+	GameController::Shutdown();
 	return;
 }
 
@@ -76,13 +78,21 @@ void System::Run(){
 	return;
 }
 
+
 bool System::Frame(){
 	bool result;
-
 	if (GameController::GetPtr()->IsKeyDown(VK_ESCAPE))
 	{
-		return false;
+		if (MessageBox(m_hWnd, L"	本当に終了しますか？", L"DigDug", MB_YESNO) == IDYES){
+			::DestroyWindow(m_hWnd);
+			return false;
+		}
+		
 	}
+
+	result = m_sceneManager->Frame();
+	
+	
 
 	return true;
 }
@@ -115,9 +125,9 @@ LRESULT CALLBACK System::MessageHandler(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 
 void System::InitializeWindows(POINT& screen){
 	WNDCLASSEX wc;
-	ZeroMemory(&wc, sizeof(WNDCLASSEX));
+	SecureZeroMemory(&wc, sizeof(WNDCLASSEX));
 	DEVMODE dmScreenSettings;
-	ZeroMemory(&dmScreenSettings, sizeof(DEVMODE));
+	SecureZeroMemory(&dmScreenSettings, sizeof(DEVMODE));
 	POINT position = { 0, 0 };
 
 	// Get an extemal pointer to this object
@@ -127,7 +137,7 @@ void System::InitializeWindows(POINT& screen){
 	m_hInstance = ::GetModuleHandle(NULL);
 
 	// Give the application a name
-	m_appName = L"Engine";
+	m_appName = L"DigDug";
 
 	// Setup the windows class with default settings
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -181,8 +191,12 @@ void System::InitializeWindows(POINT& screen){
 
 	// Create window eith the screen settings and get the handle to it
 	m_hWnd = CreateWindowEx(WS_EX_APPWINDOW, m_appName, m_appName,
-		WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_POPUP,
-		position.x, position.y, screen.x, screen.y, NULL, NULL, m_hInstance, NULL);
+		WS_OVERLAPPED | WS_SYSMENU,
+		position.x, position.y, // ウィンドウのふちを含めた横幅
+		(screen.x ) + (GetSystemMetrics(SM_CXDLGFRAME) * 2),
+		// ウィンドウのふちを含めた縦幅
+		(screen.y) + (GetSystemMetrics(SM_CXDLGFRAME) * 2),
+		NULL, NULL, m_hInstance, NULL);
 
 	// Bring the window up on the screen and set it as main focus
 	::ShowWindow(m_hWnd, SW_SHOW);
@@ -190,7 +204,7 @@ void System::InitializeWindows(POINT& screen){
 	::SetFocus(m_hWnd);
 
 	// Hide the mouse cursor
-	ShowCursor(false);
+	::ShowCursor(true);
 
 	return;
 }
@@ -215,8 +229,23 @@ void System::ShutdownWindows(){
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
+	
+	HWND command;
+	int id;
+	unsigned int codeNotify;
 	switch (uMsg)
 	{
+
+	case WM_COMMAND:
+		id = static_cast<int>(LOWORD(wParam));
+		command = (HWND)lParam;
+		codeNotify = static_cast<unsigned int>(wParam);
+
+		switch (id)
+		{
+		default:
+			break;
+		}
 		// Check if the window is being destroyed.
 	case WM_DESTROY:
 		::PostQuitMessage(0);
@@ -224,7 +253,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
 
 		// Check if the window is being closed.
 	case WM_CLOSE:
-		::PostQuitMessage(0);
+		if (MessageBox(hWnd, L"	本当に終了しますか？", L"DigDug", MB_YESNO) == IDYES){
+			::DestroyWindow(hWnd);
+			::PostQuitMessage(0);
+		}
+		
 		break;
 	default:
 		return g_applicationHandle->MessageHandler(hWnd, uMsg, wParam, lParam);

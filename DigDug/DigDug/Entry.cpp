@@ -1,5 +1,12 @@
-#include "System.h"
+/*
 
+	エントリーポイント
+	プログラムが始まるとこ
+
+*/
+
+#include "System.h"
+#include <iostream>
 //	コンソール表示用
 #include <io.h>
 #include <fcntl.h>
@@ -32,7 +39,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	system = std::make_unique<System>();
 	if (!system)
 	{
-		
+		std::cout << "Error: Coould not created System object" << std::endl;
+		std::cout << "File: Entry.cpp 39 lines" << std::endl;
 		return -1;
 	}
 
@@ -41,6 +49,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	if (result)
 	{
+		std::cout << "Start system run" << std::endl;
 		system->Run();
 	}
 
