@@ -83,11 +83,7 @@ bool System::Frame(){
 	bool result;
 	if (GameController::GetPtr()->IsKeyDown(VK_ESCAPE))
 	{
-		if (MessageBox(m_hWnd, L"	–{“–‚ÉI—¹‚µ‚Ü‚·‚©H", L"DigDug", MB_YESNO) == IDYES){
-			::DestroyWindow(m_hWnd);
-			return false;
-		}
-		
+		return false;
 	}
 
 	result = m_sceneManager->Frame();

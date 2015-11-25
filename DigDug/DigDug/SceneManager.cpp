@@ -15,9 +15,7 @@ SceneManager::SceneManager()
 }
 
 
-SceneManager::~SceneManager()
-{
-}
+SceneManager::~SceneManager(){}
 
 
 void SceneManager::Register(std::shared_ptr<SceneBase> registerScene){
@@ -88,6 +86,7 @@ void SceneManager::Shutdown(){
 		return;
 	}
 	m_currentScene->ShutdownScene();
+	return;
 }
 
 
@@ -107,5 +106,6 @@ void SceneManager::ChangeScene(std::string nextScene){
 
 	m_currentScene = m_nextScene;
 	m_nextScene = nullptr;
-	
+	return;
 }
+	
