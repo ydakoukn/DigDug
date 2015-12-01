@@ -12,24 +12,25 @@ SceneTitle::~SceneTitle()
 }
 
 
-void SceneTitle::InitializeScene(){
+void SceneTitle::Initialize(){
 	std::cout << "Start title" << std::endl;
-	return;
-}
-
-
-void SceneTitle::UpDataScene(){
 
 	return;
 }
 
 
-void SceneTitle::RenderScene(){
+void SceneTitle::Updata(){
 
 	return;
 }
 
-void SceneTitle::ShutdownScene(){
+
+void SceneTitle::Render(){
+
+	return;
+}
+
+void SceneTitle::Shutdown(){
 
 	return;
 }

@@ -3,17 +3,15 @@
 
 // 使ってないライブラリを除外
 #define WIN32_LEAN_AND_MEAN
-
+// 標準ライブラリ
 #include <Windows.h>
 #include <memory>
+// 自作ライブラリ
+
+// 自作クラス		
 #include "GameController.h"
 #include "SceneManager.h"
-namespace{
-	const bool FULL_SCREEN = false;
-	const bool VSYNC_ENABLED = true;
-	const float SCREEN_DEPTH = 1000.0f;
-	const float SCREEN_NEAR = 0.1f;
-}
+#include "GameFrame.h"
 class System
 {
 	public:
@@ -34,10 +32,10 @@ class System
 
 	private:
 
-		std::unique_ptr<SceneManager> m_sceneManager;
 		LPCWSTR m_appName;
 		HINSTANCE m_hInstance;
 		HWND m_hWnd;
+		std::unique_ptr<GameFrame> m_gameFrame;
 };
 
 static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM,LPARAM);

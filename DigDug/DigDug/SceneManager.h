@@ -8,34 +8,35 @@ class SceneManager
 {
 	public:
 		SceneManager();
+		SceneManager(SceneManager&);
 		~SceneManager();
 
-		bool UpData();
 		bool Initialize();
-		bool Render();
-		void Shutdown();
-		void ChangeScene(std::string);
+		
+		bool SceneUpdatar();
+		bool SceneRender();
+		void SceneChanger(std::string);
+		void SceneShutdown();
 
-		bool Frame();
+		void Shutdown();
 
 	private:
-		enum class GameState{
+		enum class eGameState{
 			eNone,
 			eInitialize,
 			eUpData,
 			eRender,
 			eShutdown,
+			eChangeScene,
 		};
 	private:
 		void Register(const std::shared_ptr<SceneBase>);
-		
-		std::shared_ptr<SceneBase> GetScene(std::string);
-
-		GameState m_state;
+		std::shared_ptr<SceneBase> FindScene(std::string);
+		void SceneInitialize();
 	private:
-		static std::unordered_map<std::string, std::shared_ptr<SceneBase>> m_scenes;
+		static std::unordered_map<std::string, std::shared_ptr<SceneBase>> m_scenesMap;
 		static std::shared_ptr<SceneBase> m_currentScene;
-		static std::shared_ptr<SceneBase> m_nextScene;
+		static eGameState m_gameState;
 };
 
 #endif

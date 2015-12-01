@@ -3,8 +3,9 @@
 const std::string SceneGame::m_thisName = "Game";
 
 SceneGame::SceneGame(SceneManager* manager) :
-SceneBase(m_thisName,*manager)
-{
+SceneBase(m_thisName,*manager){
+	
+	
 }
 
 
@@ -12,24 +13,25 @@ SceneGame::~SceneGame()
 {
 }
 
-void SceneGame::InitializeScene(){
+void SceneGame::Initialize(){
 	std::cout << "Start game" << std::endl;
+	std::cout << "ƒtƒ‰ƒO" << IsChange() << std::endl;
 	return;
 }
 
 
-void SceneGame::UpDataScene(){
+void SceneGame::Updata(){
 
 	return;
 }
 
 
-void SceneGame::RenderScene(){
+void SceneGame::Render(){
 
 	return;
 }
 
-void SceneGame::ShutdownScene(){
+void SceneGame::Shutdown(){
 
 	return;
 }

@@ -8,10 +8,10 @@ class SceneTitle :
 		SceneTitle(SceneManager* manager);
 		~SceneTitle();
 
-		void InitializeScene()override;
-		void UpDataScene()override;
-		void RenderScene()override;
-		void ShutdownScene()override;
+		void Initialize()override;
+		void Updata()override;
+		void Render()override;
+		void Shutdown()override;
 
 	public:
 		static const std::string m_thisName;

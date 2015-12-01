@@ -1,15 +1,15 @@
+#include <Windows.h>
+#include <iostream>
+
 #include "System.h"
 #include "GameController.h"
-#include <Windows.h>
+
 System::System(){
 
 
 }
 
-System::System(const System& other){
-
-
-}
+System::System(const System& other){}
 
 
 System::~System(){}
@@ -25,15 +25,18 @@ bool System::Initialize(){
 
 	InitializeWindows(screen);
 
-	m_sceneManager = std::make_unique<SceneManager>();
-	m_sceneManager->Initialize();
-
+	m_gameFrame = std::make_unique<GameFrame>();
+	m_gameFrame->Initialize(screen, m_hWnd);
+	
 	return true;
 
 }
 
 // 
 void System::Shutdown(){
+	m_gameFrame->Shutdown();
+	m_gameFrame.release();
+	m_gameFrame = nullptr;
 
 	this->ShutdownWindows();
 	GameController::Shutdown();
@@ -85,11 +88,13 @@ bool System::Frame(){
 	{
 		return false;
 	}
-
-	result = m_sceneManager->Frame();
 	
-	
+	result = m_gameFrame->Updatar();
 
+	if (!result)
+	{
+		return false;
+	}
 	return true;
 }
 
@@ -156,7 +161,7 @@ void System::InitializeWindows(POINT& screen){
 	screen.y = ::GetSystemMetrics(SM_CYSCREEN);
 
 	// Setup the screen settings depending on whether it is running in full screen or in windowed mode.
-	if (FULL_SCREEN)
+	if (kFullScreen)
 	{
 		// If full screen set the screen to maximum size of the users desktop and 32bit
 		memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
@@ -249,10 +254,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
 
 		// Check if the window is being closed.
 	case WM_CLOSE:
-		if (MessageBox(hWnd, L"	ñ{ìñÇ…èIóπÇµÇ‹Ç∑Ç©ÅH", L"DigDug", MB_YESNO) == IDYES){
-			::DestroyWindow(hWnd);
-			::PostQuitMessage(0);
-		}
 		
 		break;
 	default:

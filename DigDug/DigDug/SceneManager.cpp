@@ -1,111 +1,134 @@
 #include "SceneManager.h"
 #include "SceneTitle.h"
 #include "SceneGame.h"
-std::unordered_map<std::string, std::shared_ptr<SceneBase>> SceneManager::m_scenes;
-std::shared_ptr<SceneBase> SceneManager::m_currentScene = nullptr;
-std::shared_ptr<SceneBase> SceneManager::m_nextScene = nullptr;
 
-SceneManager::SceneManager()
-{
+std::unordered_map<std::string, std::shared_ptr<SceneBase>> SceneManager::m_scenesMap;
+std::shared_ptr<SceneBase> SceneManager::m_currentScene = nullptr;
+
+SceneManager::eGameState SceneManager::m_gameState = SceneManager::eGameState::eNone;
+
+SceneManager::SceneManager(){}
+SceneManager::SceneManager(SceneManager& other){}
+SceneManager::~SceneManager(){}
+
+bool SceneManager::Initialize(){
+
 	//　シーンが増えてくごとに追加していく
 	Register(std::make_shared<SceneTitle>(this));
 	Register(std::make_shared<SceneGame>(this));
-	m_state = GameState::eInitialize;
-	m_currentScene = GetScene(SceneTitle::m_thisName);
+
+	m_currentScene = FindScene(SceneTitle::m_thisName);
+	if (!m_currentScene){
+		
+		return false;
+	}
+	
+	m_gameState = eGameState::eInitialize;
+	SceneInitialize();
+	return true;
 }
-
-
-SceneManager::~SceneManager(){}
-
 
 void SceneManager::Register(std::shared_ptr<SceneBase> registerScene){
-	m_scenes.insert(std::make_pair(registerScene->GetName(), registerScene));
+	m_scenesMap.insert(std::make_pair(registerScene->GetName(), registerScene));
 }
 
-bool SceneManager::Frame(){
-	bool result;
-	result = Initialize();
-	if (!result)
-	{
-		return false;
-	}
+std::shared_ptr<SceneBase> SceneManager::FindScene(std::string name){
+	auto findMap = m_scenesMap.find(name);
 
-	result = Render();
-	if (!result)
-	{
-		return false;
-	}
-
-	result = UpData();
-	if (!result)
-	{
-		return false;
-	}
-	return true;
+	return findMap->second;
 }
 
-bool SceneManager::Initialize(){
-	if (m_state != GameState::eInitialize)
-	{
-		return true;
-	}
-
-	m_currentScene->InitializeScene();
-
-	m_state = GameState::eRender;
-	return true;
-}
-
-bool SceneManager::Render(){
-	if (m_state != GameState::eRender)
-	{
-		return true;
-	}
-
-	m_currentScene->RenderScene();
-
-	m_state = GameState::eUpData;
-	return true;
-}
-
-bool SceneManager::UpData(){
-	if (m_state != GameState::eUpData)
-	{
-		return true;
-	}
-	m_currentScene->UpDataScene();
-
-	m_state = GameState::eRender;
-	return true;
-}
-
-
-void SceneManager::Shutdown(){
-	if (m_state != GameState::eShutdown)
+void SceneManager::SceneInitialize(){
+	if (m_gameState != eGameState::eInitialize)
 	{
 		return;
 	}
-	m_currentScene->ShutdownScene();
+	m_currentScene->Initialize();
+
+	m_gameState = eGameState::eRender;
+}
+
+bool SceneManager::SceneRender(){
+	if (m_gameState != eGameState::eRender)
+	{
+		return true;
+	}
+
+	m_currentScene->Render();
+	m_gameState = eGameState::eUpData;
+	return true;
+}
+
+bool SceneManager::SceneUpdatar(){
+	if (m_gameState != eGameState::eUpData)
+	{
+		return true;
+	}
+	m_currentScene->Updata();
+
+	if (m_currentScene->IsChange())
+	{
+		SceneChanger(m_currentScene->GetChangeAfterSceneName());
+	}
+	m_gameState = eGameState::eRender;
+	return true;
+}
+
+
+void SceneManager::SceneShutdown(){
+	if (m_gameState != eGameState::eShutdown)
+	{
+		return;
+	}
+	m_currentScene->Shutdown();
 	return;
 }
 
+void SceneManager::Shutdown(){
+	m_currentScene.reset();
+	m_currentScene = nullptr;
 
-std::shared_ptr<SceneBase> SceneManager::GetScene(std::string name){
-	return m_scenes[name];
+	m_scenesMap.clear();
 }
 
-void SceneManager::ChangeScene(std::string nextScene){
+
+void SceneManager::SceneChanger(std::string nextSceneName){
 	std::cout << "Change scene" << std::endl;
-	m_state = GameState::eShutdown;
-	m_nextScene = m_scenes[nextScene];
+
+	m_gameState = eGameState::eShutdown;
+	m_currentScene->Shutdown();
+
+	auto sceneMap = m_scenesMap.find(nextSceneName);
+	auto nextScene = sceneMap->second;
 	
-	// TODO: フェードイン・フェードアウト処理
+	if (!nextScene)
+	{
+		std::cout << "Not find next scene" << std::endl;
+		MessageBox(NULL, L"Not find next scene", L"Error", MB_OK);
+		return;
+	}
 
-	m_currentScene->ShutdownScene();
-	m_state = GameState::eInitialize;
+	// TODO: フェードイン・フェードアウト処理 //
+	std::cout << "Transition start" << std::endl;
 
-	m_currentScene = m_nextScene;
-	m_nextScene = nullptr;
+	m_currentScene = nextScene;
+	nextScene.reset();
+	nextScene = nullptr;
+
+	if (!m_currentScene)
+	{
+		std::cout << "Not find current scene" << std::endl;
+		MessageBox(NULL, L"Not find current scene", L"Error", MB_OK);
+		return;
+	}
+
+	m_gameState = eGameState::eInitialize;
+	SceneInitialize();
+	std::cout << "Transition end" << std::endl;
+
+
+	std::cout << "Changed scene" << std::endl;
+
 	return;
 }
 	
