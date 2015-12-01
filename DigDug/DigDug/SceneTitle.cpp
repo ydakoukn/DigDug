@@ -12,7 +12,7 @@ SceneTitle::~SceneTitle()
 }
 
 
-void SceneTitle::Initialize(){
+void SceneTitle::Initialize(Dx11::Direct3DManager*, HWND){
 	std::cout << "Start title" << std::endl;
 
 	return;
@@ -25,7 +25,7 @@ void SceneTitle::Updata(){
 }
 
 
-void SceneTitle::Render(){
+void SceneTitle::Render(Dx11::Direct3DManager*){
 
 	return;
 }

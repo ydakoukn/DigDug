@@ -16,6 +16,7 @@ namespace DxCamera{
 		void LookUp(D3DXVECTOR3);
 
 
+
 		D3DXVECTOR3 GetPosition();
 		D3DXVECTOR3 GetRotation();
 

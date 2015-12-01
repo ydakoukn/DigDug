@@ -7,10 +7,24 @@ namespace FbxModelProperty
 	struct FbxMeshNode{
 
 		~FbxMeshNode(){
-			_uvSetID.clear();
-			_index.clear();
+			Release();
 
 		}
+
+		void Release()
+		{
+			_uvSetID.clear();
+			_texcoord.clear();
+			_material.clear();
+			_index.clear();
+			_position.clear();
+			_normal.clear();
+		}
+
+		std::vector<unsigned int>		_index;				// インデックス配列
+		std::vector<FbxVector4>			_position;		// ポジション配列
+		std::vector<FbxVector4>			_normal;			// 法線配列
+		std::vector<FbxVector2>			_texcoord;
 
 		std::string _name; // ノード名
 		std::string _parentName; // 親ノード名（いない場合はnullが入る）
@@ -19,7 +33,6 @@ namespace FbxModelProperty
 		std::vector <ModelProperty::Material> _material; // マテリアル
 
 		std::unordered_map<std::string, int> _uvSetID;
-		std::vector<unsigned int> _index;			// インデックス配列
 
 		float _matrix4x4[16];
 	};

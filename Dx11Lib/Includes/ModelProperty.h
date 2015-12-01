@@ -73,20 +73,16 @@ namespace ModelProperty{
 		~UVSet(){
 			_texture.clear();
 		}
-
-		UVPoint _buffer;
 		std::string _uvSetName;
 		std::list<std::string> _texture;
-		
-		
 	};
 
-	struct VertexColor{
-		VertexColor(){
+	struct Color{
+		Color(){
 			_red = _blue =
 				_green = _alpha = 0.0f;
 		}
-		~VertexColor() = default;
+		~Color() = default;
 
 		void operator =(D3DXVECTOR4 vector){
 			_red = vector.x;
@@ -102,34 +98,36 @@ namespace ModelProperty{
 
 	struct VertexType{
 		VertexType(){
-
+	
+			
+			SecureZeroMemory(&_position, sizeof(_position));
+			SecureZeroMemory(&_color, sizeof(_color));
+			SecureZeroMemory(&_uv, sizeof(_uv));
 			_normal = nullptr;
-			_color = nullptr;
-		
 		}
 		~VertexType(){
 			Deleter();
 		}
 
 		void Deleter(){
+			SecureZeroMemory(&_position, sizeof(_position));
+			SecureZeroMemory(&_color, sizeof(_color));
+			SecureZeroMemory(&_uv, sizeof(_uv));
 			if (_normal)
 			{
 				delete _normal;
 				_normal = nullptr;
 			}
 
-			if (_color)
-			{
-				delete[] _color;
-				_color = nullptr;
-			}
-		
 		}
 
 		VertexPosition _position;
-		UVSet _uv;
+		Color _color;
+		UVPoint _uv;
 		VertexNomal* _normal;
-		VertexColor* _color;
+		
+		
+		UVSet _uvSet;
 	};
 
 	struct MeshElements{
@@ -151,15 +149,14 @@ namespace ModelProperty{
 		unsigned long _vertexCount;
 		unsigned long _indexCount;
 		unsigned long _uvCount;
+		unsigned int _uvSetCount;
 		unsigned long _normalCount;
 		unsigned int _materialCount;
 
 
 	};
 
-	struct MaterialColor{
-		float _red, _green, _blue, _alpha;
-	};
+
 	struct MaterialElement{
 		enum class eMaterialElementType{
 			eElementNone = 0,
@@ -172,7 +169,7 @@ namespace ModelProperty{
 		// UVセット名,テクスチャパス名(1つのUVSetに複数のテクスチャがある場合がある)
 		std::unordered_map<std::string, std::vector<std::string>> _texture;
 		eMaterialElementType _type;
-		MaterialColor _color;
+		Color _color;
 	};
 
 	struct Material{
@@ -193,17 +190,17 @@ namespace ModelProperty{
 	};
 
 	struct MaterialConstantData{
-		MaterialColor _ambient;
-		MaterialColor _diffuse;
-		MaterialColor _specular;
-		MaterialColor _emmisive;
+		Color _ambient;
+		Color _diffuse;
+		Color _specular;
+		Color _emmisive;
 	};
 
 	struct MaterialData{
-		MaterialColor _ambient;
-		MaterialColor _diffuse;
-		MaterialColor _specular;
-		MaterialColor _emmisive;
+		Color _ambient;
+		Color _diffuse;
+		Color _specular;
+		Color _emmisive;
 		float _specularPower;
 		float _tranceparencyFactory;
 		MaterialConstantData _materialConstantData;

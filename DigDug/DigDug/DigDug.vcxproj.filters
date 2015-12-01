@@ -31,14 +31,23 @@
     <Filter Include="Scene\h">
       <UniqueIdentifier>{e5a6b9d6-632e-4f0c-ac1d-0716b0dace69}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Main">
+    <Filter Include="MainLoopAndSystem">
       <UniqueIdentifier>{27201824-52da-4c98-a4a4-f0d04f937bf2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Main\cpp">
+    <Filter Include="MainLoopAndSystem\cpp">
       <UniqueIdentifier>{588ae123-49d7-4a23-9535-e9e789793756}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Main\h">
+    <Filter Include="MainLoopAndSystem\h">
       <UniqueIdentifier>{bc5e6244-ab03-43e8-b78c-a6bfc53fa868}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cosole">
+      <UniqueIdentifier>{29f883fe-f3d3-4c80-96c8-304fa09e03d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cosole\cpp">
+      <UniqueIdentifier>{c0beff47-2aad-43a9-83f9-8a8730ae0971}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cosole\h">
+      <UniqueIdentifier>{dd732d46-c79b-4abf-b469-c52b339b4361}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -58,16 +67,16 @@
       <Filter>Scene\cpp</Filter>
     </ClCompile>
     <ClCompile Include="GameController.cpp">
-      <Filter>Main\cpp</Filter>
+      <Filter>MainLoopAndSystem\cpp</Filter>
     </ClCompile>
     <ClCompile Include="GameFrame.cpp">
-      <Filter>Main\cpp</Filter>
+      <Filter>MainLoopAndSystem\cpp</Filter>
     </ClCompile>
     <ClCompile Include="System.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>MainLoopAndSystem\cpp</Filter>
     </ClCompile>
     <ClCompile Include="ConsoleWindow.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Cosole\cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -87,16 +96,16 @@
       <Filter>Scene\h</Filter>
     </ClInclude>
     <ClInclude Include="GameController.h">
-      <Filter>Main\h</Filter>
+      <Filter>MainLoopAndSystem\h</Filter>
     </ClInclude>
     <ClInclude Include="GameFrame.h">
-      <Filter>Main\h</Filter>
+      <Filter>MainLoopAndSystem\h</Filter>
     </ClInclude>
     <ClInclude Include="System.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>MainLoopAndSystem\h</Filter>
     </ClInclude>
     <ClInclude Include="ConsoleWindow.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Cosole\h</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -39,7 +39,7 @@ bool GameFrame::Initialize(POINT screen, HWND hWnd){
 		return false;
 	}
 
-	result = m_sceneManager->Initialize();
+	result = m_sceneManager->Initialize(m_d3d11Manager.get(),hWnd);
 	if (!result)
 	{
 		return false;

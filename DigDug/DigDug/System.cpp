@@ -4,6 +4,12 @@
 #include "System.h"
 #include "GameController.h"
 
+namespace{
+	const std::wstring kAppName = L"DigDug";
+	const float kWindowWidth = 800;
+	const float kWindowHeight = 600;
+}
+
 System::System(){
 
 
@@ -138,7 +144,7 @@ void System::InitializeWindows(POINT& screen){
 	m_hInstance = ::GetModuleHandle(NULL);
 
 	// Give the application a name
-	m_appName = L"DigDug";
+	m_appName = kAppName.c_str();
 
 	// Setup the windows class with default settings
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -182,8 +188,8 @@ void System::InitializeWindows(POINT& screen){
 	else
 	{
 		// If windowed then set it to 800Å~600 resolution
-		screen.x = 800;
-		screen.y = 600;
+		screen.x = kWindowWidth;
+		screen.y = kWindowHeight;
 
 		// Place the window in the middle of screen
 		position.x = (::GetSystemMetrics(SM_CXSCREEN) - screen.x) / 2;

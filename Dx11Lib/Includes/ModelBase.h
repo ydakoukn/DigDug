@@ -10,22 +10,38 @@
 #include "ModelProperty.h"
 namespace DxModel{
 
+	enum class eRenderWay{
+		eColor,
+		eTexture,
+	};
+
 	class ModelBase
 	{
+	private:
+		D3DXVECTOR3 scale;
+		D3DXVECTOR3 translation;
+		D3DXVECTOR3 rotation;
+		void TransMatrix(D3DXMATRIX*);
+	public:
+		D3DXVECTOR3& Rotation();
+		void Rotation(D3DXVECTOR3 transform);
+
+		D3DXVECTOR3& Translation();
+		void Translation(D3DXVECTOR3 transform);
+
+		D3DXVECTOR3& Scaling();
+		void Scaling(D3DXVECTOR3 transform);
+
 	public:
 		ModelBase();
 		ModelBase(const ModelBase&);
 		virtual ~ModelBase() = default;
 
-		bool Initialize(std::string textureFileName = "null");
+		bool Initialize(DxCamera::ViewCamera*,std::string textureFileName = "null");
 		void Shutdown();
-		void Render(const std::shared_ptr<Shader::TextureShader>,const std::shared_ptr<DxCamera::ViewCamera>);
+		void Render(const std::shared_ptr<DxShader::ShaderBase>,const eRenderWay);
 
-		void Rotation(D3DXVECTOR3 transform, float rad);
-		void Translation(D3DXVECTOR3 transform);
-		void Scaling(D3DXVECTOR3 transform);
-
-		D3DMATRIX GetTransform();
+		void SetCamera(DxCamera::ViewCamera*);
 		int GetIndexCount();
 		ID3D11ShaderResourceView* GetTexture();
 		static void CopyManagerAddress(Dx11::Direct3DManager*);
@@ -45,11 +61,13 @@ namespace DxModel{
 		unsigned long m_vertexCount, m_indexCount;
 		std::shared_ptr<Texture> m_texture;
 		static Dx11::Direct3DManager* m_direct3d;
-		D3DXMATRIX m_transform;
 
 	private:
 		
 		void ReleaseTexture();
+
+	private:
+		DxCamera::ViewCamera* m_camera;
 	};
 }
 #endif

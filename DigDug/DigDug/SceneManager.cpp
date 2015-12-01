@@ -11,13 +11,15 @@ SceneManager::SceneManager(){}
 SceneManager::SceneManager(SceneManager& other){}
 SceneManager::~SceneManager(){}
 
-bool SceneManager::Initialize(){
+bool SceneManager::Initialize(Dx11::Direct3DManager* direct3d,HWND& hWNd){
 
+	m_direct3d = &(*direct3d);
+	m_hWnd = &hWNd;
 	//@ƒV[ƒ“‚ª‘‚¦‚Ä‚­‚²‚Æ‚É’Ç‰Á‚µ‚Ä‚¢‚­
 	Register(std::make_shared<SceneTitle>(this));
 	Register(std::make_shared<SceneGame>(this));
 
-	m_currentScene = FindScene(SceneTitle::m_thisName);
+	m_currentScene = FindScene(SceneGame::m_thisName);
 	if (!m_currentScene){
 		
 		return false;
@@ -43,7 +45,7 @@ void SceneManager::SceneInitialize(){
 	{
 		return;
 	}
-	m_currentScene->Initialize();
+	m_currentScene->Initialize(m_direct3d,*m_hWnd);
 
 	m_gameState = eGameState::eRender;
 }
@@ -54,7 +56,7 @@ bool SceneManager::SceneRender(){
 		return true;
 	}
 
-	m_currentScene->Render();
+	m_currentScene->Render(m_direct3d);
 	m_gameState = eGameState::eUpData;
 	return true;
 }

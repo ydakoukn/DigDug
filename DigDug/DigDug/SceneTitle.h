@@ -8,9 +8,9 @@ class SceneTitle :
 		SceneTitle(SceneManager* manager);
 		~SceneTitle();
 
-		void Initialize()override;
+		void Initialize(Dx11::Direct3DManager*, HWND)override;
 		void Updata()override;
-		void Render()override;
+		void Render(Dx11::Direct3DManager*)override;
 		void Shutdown()override;
 
 	public:

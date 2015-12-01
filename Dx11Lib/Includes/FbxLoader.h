@@ -24,6 +24,8 @@ namespace MyFbx{
 
 		void GetInfo();
 
+		std::vector<FbxModelProperty::FbxMeshNode> GetMeshNode();
+
 		void Release();
 
 
@@ -56,7 +58,7 @@ namespace MyFbx{
 		void ComputeNodeMatrix(FbxNode*, FbxModelProperty::FbxMeshNode*, FbxScene*);
 
 		static void FbxMatrixToFloat16(FbxMatrix*, float matrix[16]);
-	public:
+	private:
 
 		std::vector<FbxModelProperty::FbxMeshNode> m_meshNode;
 
