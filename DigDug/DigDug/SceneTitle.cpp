@@ -25,7 +25,7 @@ void SceneTitle::Updata(){
 }
 
 
-void SceneTitle::Render(Dx11::Direct3DManager*){
+void SceneTitle::Render(){
 
 	return;
 }

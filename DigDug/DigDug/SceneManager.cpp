@@ -56,7 +56,7 @@ bool SceneManager::SceneRender(){
 		return true;
 	}
 
-	m_currentScene->Render(m_direct3d);
+	m_currentScene->Render();
 	m_gameState = eGameState::eUpData;
 	return true;
 }

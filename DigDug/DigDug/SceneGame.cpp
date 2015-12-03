@@ -1,11 +1,15 @@
 #include "SceneGame.h"
-
+#include "GameController.h"
 const std::string SceneGame::m_thisName = "Game";
 
 SceneGame::SceneGame(SceneManager* manager) :
 SceneBase(m_thisName,*manager){	}
 
-SceneGame::~SceneGame(){}
+SceneGame::~SceneGame(){
+
+	Shutdown();
+}
+
 
 void SceneGame::Initialize(Dx11::Direct3DManager* direct3d, HWND hWnd){
 	bool result;
@@ -17,7 +21,8 @@ void SceneGame::Initialize(Dx11::Direct3DManager* direct3d, HWND hWnd){
 		std::cout << "ƒJƒƒ‰ì¬Ž¸”s" << std::endl;
 		return;
 	}
-	m_camera->SetPosition(300.0f, 230.0f, -600.0f);
+	
+	m_camera->SetPosition(300, 230, -600);
 	
 
 	m_textureShader = std::make_shared<DxShader::TextureShader>();
@@ -41,28 +46,51 @@ void SceneGame::Initialize(Dx11::Direct3DManager* direct3d, HWND hWnd){
 		return;
 	}
 	m_stage1->Initialize(m_camera);
+
+	m_player = std::make_unique<PlayerManager>();
+	if (!m_player)
+	{
+		std::cout << "ƒvƒŒƒCƒ„[ì¬Ž¸”s" << std::endl;
+		return;
+	}
+	result = m_player->Initialize(m_camera);
+	if (!result)
+	{
+		std::cout << "Ž¸”s" << std::endl;
+	}
+
 	return;
 }
-
-
+float a = 0;
 void SceneGame::Updata(){
+	
+	m_player->Update();
+
+	m_stage1->GetStageData(m_player->GetPosition());
 
 	return;
 }
 
 
-void SceneGame::Render(Dx11::Direct3DManager* d3d){
+void SceneGame::Render(){
 
-	d3d->BeginScene(Color(0.0f,1.0f,0.0f,1.0f));
+	
 	m_camera->Render();
 
 	m_stage1->StageRender(m_textureShader);
 
-	d3d->EndScene();
+	m_player->Render(m_textureShader);
+
+	
 	return;
 }
 
 void SceneGame::Shutdown(){
+	if (m_player)
+	{
+		m_player.release();
+		m_player = nullptr;
+	}
 	if (m_stage1)
 	{
 		m_stage1->Shutdown();

@@ -22,7 +22,7 @@ class SceneBase
 		
 		virtual void Initialize(Dx11::Direct3DManager*,HWND) = 0;
 		virtual void Updata() = 0;
-		virtual void Render(Dx11::Direct3DManager*) = 0;
+		virtual void Render() = 0;
 		virtual void Shutdown() = 0;
 		
 		const std::string GetName(){ return m_sceneName; }

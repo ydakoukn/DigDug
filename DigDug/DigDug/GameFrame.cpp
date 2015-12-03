@@ -50,7 +50,7 @@ bool GameFrame::Initialize(POINT screen, HWND hWnd){
 
 bool GameFrame::Updatar(){
 	bool result;
-	
+	m_d3d11Manager->BeginScene(Color(0.5f, 0.5f, 0.5f, 1.0f));
 	result = m_sceneManager->SceneRender();
 	if (!result)
 	{
@@ -62,7 +62,7 @@ bool GameFrame::Updatar(){
 	{
 		MessageBox(NULL, L"Do not Updater", L"Error", MB_OK);
 	}
-
+	m_d3d11Manager->EndScene();
 	return true;
 }
 

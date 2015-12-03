@@ -111,7 +111,6 @@ LRESULT CALLBACK System::MessageHandler(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 	{
 	
 	case WM_KEYDOWN:
-
 		GameController::GetPtr()->KeyDown(static_cast<unsigned int>(wParam));
 		break;
 

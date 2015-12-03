@@ -1,41 +1,43 @@
 #include "Stage1.h"
 #include <iostream>
 Stage1::StageResorces Stage1::m_resource[] = {
-	{ "res/sample.jpg" },
-	{ "res/sample01.png" },
-	{ "res/sample02.jpg" },
-	{ "res/sample03.jpg" },
-	{ "res/sample04.jpg" },
 	{ "res/sky.png" },
+	{ "res/soil04.png" },
+	{ "res/soil03.png" },
+	{ "res/soil02.png" },
+	{ "res/soil01.png" },
+	{ "res/sky.png" },
+	{ "res/blackSpace.png" },
+	{"res/player.png"}
 };
 
 int Stage1::m_stageData[kStageHeight][kStageWidth] = {
 
-	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7 },
 
+	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 1, 1, 1 },
+	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 1, 1, 1 },
+
+	{ 2, 2, 2, 6, 6, 6, 6, 2, 2, 2, 2, 6, 2, 2, 2, 2 },
+	{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 2, 2, 2, 2 },
+	{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
+	{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
+
+	{ 3, 3, 3, 3, 3, 3, 6, 6, 6, 3, 3, 3, 3, 3, 3, 3 },
+	{ 3, 3, 6, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
+	{ 3, 3, 6, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
+	{ 3, 3, 6, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
+
+	{ 4, 4, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 },
+	{ 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 },
+	{ 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 6, 6, 6, 6, 4 },
+	{ 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 },
+
+	{ 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 	{ 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 },
 	{ 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 },
-	{ 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 },
-	{ 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 },
-
-	{ 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 },
-	{ 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 },
-	{ 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 },
-	{ 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 },
-
-	{ 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15 },
-	{ 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15 },
-	{ 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15 },
-	{ 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15 },
-
-	{ 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20 },
-	{ 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20 },
-	{ 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20 },
-	{ 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20 },
-
-	{ 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25 },
-	{ 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25 },
-	{ 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25 },
 
 };
 
@@ -56,44 +58,73 @@ void Stage1::ShutdownStage(){
 			const int y = height;
 			const int x = width;
 			m_stage[y][x]->Shutdown();
-			m_stage[y][x].release();
+			m_stage[y][x].reset();
 			m_stage[y][x] = nullptr;
 		}
 	}
+	m_cameraAddress = nullptr;
 }
 
 
-void Stage1::Initialize(std::shared_ptr<DxCamera::ViewCamera> camera){
+void Stage1::Initialize(const std::shared_ptr<DxCamera::ViewCamera> camera){
+
 	for (int height = 0; height < kStageHeight; ++height)
 	{
 		for (int width = 0; width < kStageWidth; ++width)
 		{
 			const int y = height;
 			const int x = width;
-			m_stage[y][x] = std::make_unique<DxModel::Rectangle>();
+			m_stage[y][x] = std::make_unique<DxModel::Cube>();
 
-			int stageNumber = m_stageData[y][x] / 5;
+			int stageNumber = m_stageData[y][x];
 			
-			m_stage[y][x]->Initialize(camera.get(), m_resource[stageNumber].m_fileName);
-			m_stage[y][x]->Translation(D3DXVECTOR3(x * kStageTipSize, y * kStageTipSize, 0));
-			m_stage[y][x]->Scaling(D3DXVECTOR3(10, 10, 0));
+			float tipX = x*20;
+			float tipY = y*20;
+
+			if (stageNumber == kPlayer)
+			{
+				m_playerInitializePosition.x = tipX;
+				m_playerInitializePosition.y = tipY;
+				stageNumber = kSky;
+			}
+			m_cameraAddress = &(*camera.get());
+			m_stage[y][x]->Initialize(m_cameraAddress, m_resource[stageNumber].m_fileName);
+			m_stage[y][x]->Translation(D3DXVECTOR3(tipX, tipY, 0));
+			m_stage[y][x]->Scaling(D3DXVECTOR3(kStageTipSize/2, kStageTipSize/2, 10));
 
 		}
 	}
 }
 
-void Stage1::StageRender(std::shared_ptr<DxShader::ShaderBase> shader){
+void Stage1::StageRender(const std::shared_ptr<DxShader::ShaderBase> shader){
 	for (int height = 0; height < kStageHeight; ++height)
 	{
 		for (int width = 0; width < kStageWidth; ++width)
 		{
 			const int y = height;
 			const int x = width;
-			m_stage[y][x]->Render(shader, DxModel::eRenderWay::eTexture);
+			m_stage[y][x]->Render(shader.get(), DxModel::eRenderWay::eTexture);
+
+			if (m_stageData[y][x] == kPlayerLife)
+			{
+				m_stage[y][x]->Rotation().y -= 1;
+			}
+			
 		}
 	}
 }
 
 void Stage1::Shutdown(){
 	ShutdownStage();
+}
+
+int Stage1::GetStageData(const int x,const int y)const{
+	return m_stageData[y][x];
+}
+
+int Stage1::GetStageData(Vector3 input){
+	int x = (input._x+5) / kStageTipSize;
+	int y = (input._y+5) / kStageTipSize;
+
+	return m_stageData[y][x];
 }

@@ -39,7 +39,7 @@ namespace DxModel{
 
 		bool Initialize(DxCamera::ViewCamera*,std::string textureFileName = "null");
 		void Shutdown();
-		void Render(const std::shared_ptr<DxShader::ShaderBase>,const eRenderWay);
+		void Render(DxShader::ShaderBase*,const eRenderWay);
 
 		void SetCamera(DxCamera::ViewCamera*);
 		int GetIndexCount();

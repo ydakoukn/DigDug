@@ -49,6 +49,15 @@
     <Filter Include="Cosole\h">
       <UniqueIdentifier>{dd732d46-c79b-4abf-b469-c52b339b4361}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PlayerFile">
+      <UniqueIdentifier>{75fef37f-ece4-4a4d-a155-2f93251b383a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayerFile\cpp">
+      <UniqueIdentifier>{b8642105-6802-4e9a-8ebd-33cf13472f15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayerFile\h">
+      <UniqueIdentifier>{b412437b-9a90-436d-8629-77b5ac5b1a78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entry.cpp">
@@ -78,6 +87,18 @@
     <ClCompile Include="ConsoleWindow.cpp">
       <Filter>Cosole\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerBase.cpp">
+      <Filter>PlayerFile\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerManager.cpp">
+      <Filter>PlayerFile\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRender.cpp">
+      <Filter>PlayerFile\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUpDater.cpp">
+      <Filter>PlayerFile\cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stage1.h">
@@ -95,9 +116,6 @@
     <ClInclude Include="SceneTitle.h">
       <Filter>Scene\h</Filter>
     </ClInclude>
-    <ClInclude Include="GameController.h">
-      <Filter>MainLoopAndSystem\h</Filter>
-    </ClInclude>
     <ClInclude Include="GameFrame.h">
       <Filter>MainLoopAndSystem\h</Filter>
     </ClInclude>
@@ -106,6 +124,21 @@
     </ClInclude>
     <ClInclude Include="ConsoleWindow.h">
       <Filter>Cosole\h</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBase.h">
+      <Filter>PlayerFile\h</Filter>
+    </ClInclude>
+    <ClInclude Include="GameController.h">
+      <Filter>PlayerFile\h</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerManager.h">
+      <Filter>PlayerFile\h</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRender.h">
+      <Filter>PlayerFile\h</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUpDater.h">
+      <Filter>PlayerFile\h</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
