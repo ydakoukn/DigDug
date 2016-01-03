@@ -1,18 +1,18 @@
 /*
 
-	エントリーポイント
-	プログラムが始まるとこ
+	EntryPointFile
 
 */
 
 
 #include <iostream>
-
 #pragma comment (lib,"Dx11FrameWork.lib")
-
 #include "System.h"
 #include "ConsoleWindow.h"
-
+namespace{
+	const int kExit = 0;
+	const int kError = -1;
+}
 int WINAPI WinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow){
 
@@ -22,14 +22,14 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	console = std::make_unique<ConsoleWindow>();
 	if (!console)
 	{
-		return -1;
+		return kError;
 	}
 	system = std::make_unique<System>();
 	if (!system)
 	{
 		std::cout << "Error: Coould not created System object" << std::endl;
 		std::cout << "File: Entry.cpp 39 lines" << std::endl;
-		return -1;
+		return kError;
 	}
 
 	console->Create();
@@ -51,5 +51,5 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	console.release();
 	console = nullptr;
-	return 0;
+	return kExit;
 }

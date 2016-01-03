@@ -24,7 +24,7 @@ class PlayerManager
 		bool Initialize(const std::shared_ptr<DxCamera::ViewCamera>);
 		void Render(const std::shared_ptr<DxShader::ShaderBase>);
 		void Update();
-		Vector3 GetPosition();
+		DxMath::Vector3 GetPosition();
 	private:
 		void Shutdown();
 	private:

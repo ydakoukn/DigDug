@@ -3,8 +3,8 @@
 #pragma comment (lib,"libfbxsdk-md.lib")
 #include <fbxsdk.h>
 #include "FbxModelProperty.h"
-
-namespace MyFbx{
+#include "ModelProperty.h"
+namespace DxFbx{
 	class FbxLoader
 	{
 
@@ -22,29 +22,35 @@ namespace MyFbx{
 
 		bool FileOpen(std::string, eAxisSystem);
 
-		void GetInfo();
-
 		std::vector<FbxModelProperty::FbxMeshNode> GetMeshNode();
 
 		void Release();
 
 
-		ModelProperty::VertexType* GetVertex();
-		unsigned long* GetIndex();
-		void GetMeshElements(ModelProperty::MeshElements&);
+		ModelProperty::VertexType* GetMeshNodeVertexBuffer(int id);
+		unsigned long* GetMeshNodeIndexBuffer(int id);
+		void GetMeshElements(ModelProperty::MeshElements&, int id);
+
+		unsigned int GetMeshNodeCount();
+
 	private:
 		void TriangulatedPolygons(FbxScene*, FbxNode*);
-		void GetMesh(FbxNode* node);
 
-		void GetVertexPosition(FbxMesh* mesh);
+		void GetMesh(FbxNode*, FbxScene*);
 
-		void GetVertexNomal(FbxMesh* mesh);
+		void GetMeshProperty(FbxMesh*, FbxScene*);
 
-		void GetVertexUV(FbxMesh* mesh);
+		void GetTransform(FbxMesh*);
 
-		void GetVertexColor(FbxMesh* mesh);
+		void GetVertexPosition(FbxMesh*);
+
+		void GetVertexNomal(FbxMesh*);
+
+		void GetVertexUV(FbxMesh*);
 
 		void GetMaterial(FbxMesh*);
+
+		void GetSkin(FbxMesh*, FbxScene*);
 		void CopyMaterialData(FbxSurfaceMaterial*, ModelProperty::Material*);
 
 		void SetFbxColor(ModelProperty::MaterialElement&, FbxDouble3);
@@ -57,24 +63,27 @@ namespace MyFbx{
 
 		void ComputeNodeMatrix(FbxNode*, FbxModelProperty::FbxMeshNode*, FbxScene*);
 
-		static void FbxMatrixToFloat16(FbxMatrix*, float matrix[16]);
+		void FbxDoubleToVector3(DxMath::Vector3&,FbxDouble3*);
+
+		static void FbxMatrixToFloat16(float*, FbxMatrix*);
+		std::string StringSplite(const std::string&,char);
 	private:
 
-		std::vector<FbxModelProperty::FbxMeshNode> m_meshNode;
-
-		unsigned long m_polygonCount;
-		unsigned long* m_polygonSize;
-
+		unsigned int m_meshNodeCounter;
 
 		ModelProperty::VertexType* m_vertexBuffer;
 		unsigned long* m_indexBuffer;
+		FbxModelProperty::FbxMeshNode m_meshNode;
 		ModelProperty::MeshElements m_meshElements;
 
-		
-		
+		std::vector<FbxModelProperty::FbxMeshNode> m_meshNodeArray;
+		std::vector<unsigned long*> m_polygonSizeArray;
 
-
+		std::vector<ModelProperty::VertexType*> m_vertexBufferArray;
+		std::vector<unsigned long*> m_indexBufferArray;
+		std::vector<ModelProperty::MeshElements> m_meshElementsArray;
 
 	};
 }
+
 #endif

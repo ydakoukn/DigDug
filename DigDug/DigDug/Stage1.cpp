@@ -8,7 +8,7 @@ Stage1::StageResorces Stage1::m_resource[] = {
 	{ "res/soil01.png" },
 	{ "res/sky.png" },
 	{ "res/blackSpace.png" },
-	{"res/player.png"}
+	{ "res/player.png" }
 };
 
 int Stage1::m_stageData[kStageHeight][kStageWidth] = {
@@ -89,8 +89,8 @@ void Stage1::Initialize(const std::shared_ptr<DxCamera::ViewCamera> camera){
 			}
 			m_cameraAddress = &(*camera.get());
 			m_stage[y][x]->Initialize(m_cameraAddress, m_resource[stageNumber].m_fileName);
-			m_stage[y][x]->Translation(D3DXVECTOR3(tipX, tipY, 0));
-			m_stage[y][x]->Scaling(D3DXVECTOR3(kStageTipSize/2, kStageTipSize/2, 10));
+			m_stage[y][x]->Translation(DxMath::Vector3(tipX, tipY, 0));
+			m_stage[y][x]->Scaling(DxMath::Vector3(kStageTipSize / 2, kStageTipSize / 2, 10));
 
 		}
 	}
@@ -103,15 +103,29 @@ void Stage1::StageRender(const std::shared_ptr<DxShader::ShaderBase> shader){
 		{
 			const int y = height;
 			const int x = width;
-			m_stage[y][x]->Render(shader.get(), DxModel::eRenderWay::eTexture);
+			m_stage[y][x]->Render(shader, DxModel::eRenderWay::eTexture);
 
 			if (m_stageData[y][x] == kPlayerLife)
 			{
-				m_stage[y][x]->Rotation().y -= 1;
+				m_stage[y][x]->Rotation()._y -= 1;
 			}
 			
 		}
 	}
+}
+
+void Stage1::ChangeStageNumber(DxMath::Vector3 position,const int stageNumber){
+	int x = (position._x + 5) / kStageTipSize;
+	int y = (position._y + 5) / kStageTipSize;
+
+	float tipX = x * 20;
+	float tipY = y * 20;
+
+	m_stage[y][x]->Initialize(m_cameraAddress, m_resource[stageNumber].m_fileName);
+	m_stage[y][x]->Translation(DxMath::Vector3(tipX, tipY, 0));
+	m_stage[y][x]->Scaling(DxMath::Vector3(kStageTipSize / 2, kStageTipSize / 2, 10));
+
+	return;
 }
 
 void Stage1::Shutdown(){
@@ -122,7 +136,7 @@ int Stage1::GetStageData(const int x,const int y)const{
 	return m_stageData[y][x];
 }
 
-int Stage1::GetStageData(Vector3 input){
+int Stage1::GetStageData(DxMath::Vector3 input){
 	int x = (input._x+5) / kStageTipSize;
 	int y = (input._y+5) / kStageTipSize;
 

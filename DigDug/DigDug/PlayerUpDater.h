@@ -4,11 +4,10 @@
 	PlayerのUpdaterクラス
 	更新処理を担当
 
-
-
 */
-#include "PlayerBase.h"
 #include <ModelBase.h>
+
+#include "PlayerBase.h"
 class PlayerUpdater :
 	private PlayerBase
 {
@@ -19,7 +18,7 @@ class PlayerUpdater :
 		~PlayerUpdater();
 		bool Initialize(const std::shared_ptr<DxModel::ModelBase>&);
 		void Frame();
-		Vector3& GetVector();
+		DxMath::Vector3& GetVector();
 
 	private:
 	

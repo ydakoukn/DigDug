@@ -1,8 +1,9 @@
 #include <Windows.h>
 #include <iostream>
+#include <memory>
 #include "PlayerUpdater.h"
 #include "GameController.h"
-
+#include "KeyCommandW.h"
 PlayerUpdater::PlayerUpdater(){}
 PlayerUpdater::PlayerUpdater(PlayerUpdater& other){}
 
@@ -16,30 +17,24 @@ PlayerUpdater::~PlayerUpdater(){
 
 bool PlayerUpdater::Initialize(const std::shared_ptr<DxModel::ModelBase>& object){
 	
-	Vector3 position(kTipSize/4, 340, -20);
+	DxMath::Vector3 position(kTipSize / 4, 340, -20);
 	
 	GetStatus()._vector = position;
 	
-	object->Translation().x = GetStatus()._vector._x;
-	object->Translation().y = GetStatus()._vector._y;
-	object->Translation().z = GetStatus()._vector._z;
-	Scale scale(kTipSize / 2, kTipSize / 2, 10);
+	object->Translation()._x = GetStatus()._vector._x;
+	object->Translation()._y = GetStatus()._vector._y;
+	object->Translation()._z = GetStatus()._vector._z;
+	DxMath::Vector3 scale(kTipSize / 2, kTipSize / 2, 10);
 	GetStatus()._scale = scale;
-	object->Scaling(D3DXVECTOR3(GetStatus()._scale._x, GetStatus()._scale._y, GetStatus()._scale._z));
+	object->Scaling(DxMath::Vector3(GetStatus()._scale._x, GetStatus()._scale._y, GetStatus()._scale._z));
 
 	return true;
 }
 
 void PlayerUpdater::Run(){
 
-
-
-
-	if (GameController::GetPtr()->IsKeyDown('D'))
-	{
-		GetStatus()._vector._x += 1.0f;
-	}
-	
+	std::unique_ptr<KeyCommand> command = GameController::Get().GetKeyCommnad();
+	command->Run(*this);
 	
 	return;
 }
@@ -55,6 +50,6 @@ void PlayerUpdater::Shutdown(){
 	return;
 }
 
-Vector3& PlayerUpdater::GetVector(){
+DxMath::Vector3& PlayerUpdater::GetVector(){
 	return GetStatus()._vector;
 }

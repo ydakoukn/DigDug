@@ -6,6 +6,7 @@
 // 標準ライブラリ
 #include <Windows.h>
 #include <memory>
+
 // 自作ライブラリ
 
 // 自作クラス		
@@ -29,6 +30,7 @@ class System
 		bool Frame();
 		void InitializeWindows(POINT&);
 		void ShutdownWindows();
+		bool IsEnd(bool);
 
 	private:
 

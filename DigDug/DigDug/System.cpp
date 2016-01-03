@@ -27,7 +27,7 @@ bool System::Initialize(){
 	bool result;
 
 	GameController::Create();
-	GameController::GetPtr()->Initialize();
+	GameController::Get().Initialize();
 
 	InitializeWindows(screen);
 
@@ -76,7 +76,7 @@ void System::Run(){
 			
 			result = Frame();
 
-			if (!result)
+			if (IsEnd(result))
 			{
 				isEnd = true;
 			}
@@ -87,10 +87,18 @@ void System::Run(){
 	return;
 }
 
+bool System::IsEnd(bool flg){
+	if (flg || !GameController::Get().IsKeyDown(VK_ESCAPE))
+	{
+		return false;
+	}
+	return true;
+}
+
 
 bool System::Frame(){
 	bool result;
-	if (GameController::GetPtr()->IsKeyDown(VK_ESCAPE))
+	if (GameController::Get().IsKeyDown(VK_ESCAPE))
 	{
 		return false;
 	}
@@ -111,13 +119,13 @@ LRESULT CALLBACK System::MessageHandler(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 	{
 	
 	case WM_KEYDOWN:
-		GameController::GetPtr()->KeyDown(static_cast<unsigned int>(wParam));
+		GameController::Get().KeyDown(static_cast<unsigned int>(wParam));
 		break;
 
 
 	case WM_KEYUP:
 
-		GameController::GetPtr()->KeyUp(static_cast<unsigned int>(wParam));
+		GameController::Get().KeyUp(static_cast<unsigned int>(wParam));
 		break;
 
 

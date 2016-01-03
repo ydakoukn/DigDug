@@ -8,9 +8,8 @@
 #include <memory>
 
 // 自作ライブラリ
-
-#include <Rectangle.h>
 #include <Direct3DManager.h>
+#include <Rectangle.h>
 #include <ViewCamera.h>
 
 // 自作クラス

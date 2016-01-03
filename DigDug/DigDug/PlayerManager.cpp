@@ -1,8 +1,14 @@
 #include "PlayerManager.h"
 
-
+// ステージの動ける範囲
+namespace{
+	const int kX = 5;
+	const int kWidth = 300;
+	const int kY = 375;
+	const int kHeight = 25;
+}
 PlayerManager::PlayerManager(){
-
+	
 	m_render = nullptr;
 	m_updater = nullptr;
 }
@@ -47,9 +53,28 @@ void PlayerManager::Render(const std::shared_ptr<DxShader::ShaderBase> shader){
 
 void PlayerManager::Update(){
 	m_updater->Frame();
+	if (GetPosition()._x < kX)
+	{
+		m_updater->GetVector()._x = kX;
+	}
+	else
+	if (GetPosition()._x > kWidth)
+	{
+		m_updater->GetVector()._x = kWidth;
+	}
+	else 
+	if (GetPosition()._y > kY)
+	{
+		m_updater->GetVector()._y = kY;
+	}
+	else
+	if (GetPosition()._y < kHeight)
+	{
+		m_updater->GetVector()._y = kHeight;
+	}
 }
 
-Vector3  PlayerManager::GetPosition(){
+DxMath::Vector3 PlayerManager::GetPosition(){
 
 	return m_updater->GetVector();
 	

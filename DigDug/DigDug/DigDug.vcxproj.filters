@@ -58,6 +58,18 @@
     <Filter Include="PlayerFile\h">
       <UniqueIdentifier>{b412437b-9a90-436d-8629-77b5ac5b1a78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Command">
+      <UniqueIdentifier>{2b4e3a56-f311-495b-b0ca-01ee9e197f7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Command\cpp">
+      <UniqueIdentifier>{9ac3fbcd-9fd6-4bc9-aa09-f362c2fc3f22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Command\h">
+      <UniqueIdentifier>{9c27dd4f-dbe5-4b74-a71b-4aa0620d92f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Command\base">
+      <UniqueIdentifier>{17fa5da0-d9f6-4fbc-bc12-8f7a5a0b436f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entry.cpp">
@@ -99,6 +111,21 @@
     <ClCompile Include="PlayerUpDater.cpp">
       <Filter>PlayerFile\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="KeyCommandD.cpp">
+      <Filter>Command\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyCommandNull.cpp">
+      <Filter>Command\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyCommandW.cpp">
+      <Filter>Command\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyCommandS.cpp">
+      <Filter>Command\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyCommandA.cpp">
+      <Filter>Command\cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stage1.h">
@@ -128,9 +155,6 @@
     <ClInclude Include="PlayerBase.h">
       <Filter>PlayerFile\h</Filter>
     </ClInclude>
-    <ClInclude Include="GameController.h">
-      <Filter>PlayerFile\h</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerManager.h">
       <Filter>PlayerFile\h</Filter>
     </ClInclude>
@@ -139,6 +163,27 @@
     </ClInclude>
     <ClInclude Include="PlayerUpDater.h">
       <Filter>PlayerFile\h</Filter>
+    </ClInclude>
+    <ClInclude Include="GameController.h">
+      <Filter>MainLoopAndSystem\h</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyCommandA.h">
+      <Filter>Command\h</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyCommandD.h">
+      <Filter>Command\h</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyCommandNull.h">
+      <Filter>Command\h</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyCommandS.h">
+      <Filter>Command\h</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyCommandW.h">
+      <Filter>Command\h</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyCommand.h">
+      <Filter>Command\base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

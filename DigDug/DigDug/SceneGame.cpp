@@ -22,7 +22,7 @@ void SceneGame::Initialize(Dx11::Direct3DManager* direct3d, HWND hWnd){
 		return;
 	}
 	
-	m_camera->SetPosition(300, 230, -600);
+	m_camera->Translation(DxMath::Vector3(300, 230, -600));
 	
 
 	m_textureShader = std::make_shared<DxShader::TextureShader>();
@@ -61,12 +61,26 @@ void SceneGame::Initialize(Dx11::Direct3DManager* direct3d, HWND hWnd){
 
 	return;
 }
-float a = 0;
+
 void SceneGame::Updata(){
 	
 	m_player->Update();
 
-	m_stage1->GetStageData(m_player->GetPosition());
+	const int number = m_stage1->GetStageData(m_player->GetPosition());
+	std::cout << number << std::endl;
+	std::cout << "PlayerY: " << m_player->GetPosition()._y << std::endl;
+	
+	switch (number)
+	{
+	case kSoilLevel1:
+	case kSoilLevel2:
+	case kSoilLevel3:
+	case kSoilLevel4:
+
+		m_stage1->ChangeStageNumber(m_player->GetPosition(), kBlackSpace);
+		break;
+	}
+	
 
 	return;
 }

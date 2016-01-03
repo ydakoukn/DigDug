@@ -3,9 +3,9 @@
 // 標準ライブラリ
 
 // 自作ライブラリ
-
 #include <Cube.h>
 #include <ShaderBase.h>
+#include <Vector3.h>
 // 自作クラス
 #include "PlayerBase.h"
 namespace{
@@ -38,7 +38,9 @@ class Stage1
 
 		int GetStageData(const int,const int)const;
 
-		int GetStageData(Vector3);
+		int GetStageData(DxMath::Vector3);
+
+		void ChangeStageNumber(DxMath::Vector3,const int);
 	private:
 		struct StageResorces{
 			std::string m_fileName;

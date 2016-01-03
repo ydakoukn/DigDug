@@ -2,32 +2,35 @@
 #define _CAMERA_H
 
 #include <D3DX10math.h>
-
+#include"Vector3.h"
 namespace DxCamera{
 	class ViewCamera
 	{
 	public:
 		ViewCamera();
 		ViewCamera(const ViewCamera&);
-		~ViewCamera();
+		~ViewCamera() = default;
+		
 
-		void Translation(D3DXVECTOR3);
-		void Rotation(D3DXVECTOR3);
-		void LookUp(D3DXVECTOR3);
+		//Accessor Methods
+		DxMath::Vector3& Rotation();
+		void Rotation(DxMath::Vector3 transform);
+		DxMath::Vector3& Translation();
+		void Translation(DxMath::Vector3 transform);
+		DxMath::Vector3& LookUp();
+		void LookUp(DxMath::Vector3 transform);
+		DxMath::Vector3& LookAt();
+		void LookAt(DxMath::Vector3 transform);
 
-
-
-		D3DXVECTOR3 GetPosition();
-		D3DXVECTOR3 GetRotation();
 
 		void Render();
 		void GetViewMatrix(D3DXMATRIX&);
 
-		void SetPosition(float x, float y, float z);
 	private:
-		D3DXVECTOR3 m_position;		//Camera's position in world
-		D3DXVECTOR3 m_rotation;		//Camera's rotation in world
-		D3DXVECTOR3 m_lookup;		//Camera's Up in view
+		DxMath::Vector3 m_translation;		//Camera's position in world
+		DxMath::Vector3 m_rotation;		//Camera's rotation in world
+		DxMath::Vector3 m_lookUp;			//Camera's Upper space on view
+		DxMath::Vector3 m_lookAt;			//Camera's LookAt position, default z(1.0)
 
 		D3DXMATRIX m_viewMatrix;
 	};

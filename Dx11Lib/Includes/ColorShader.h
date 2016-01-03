@@ -1,17 +1,17 @@
-#ifndef _COLORSHADERCLASS_H
-#define _COLORSHADERCLASS_H
+#ifndef _COLORSHADER_H
+#define _COLORSHADER_H
 
 #include "ShaderBase.h"
 namespace DxShader{
-	class ColorShaderClass :
+	class  ColorShader :
 		public ShaderBase
 	{
 
 	
 	public:
-		ColorShaderClass();
-		ColorShaderClass(const ColorShaderClass&);
-		~ColorShaderClass();
+		ColorShader();
+		ColorShader(const ColorShader&);
+		~ColorShader();
 
 	private:
 
