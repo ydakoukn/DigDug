@@ -11,5 +11,5 @@ KeyCommandNull::~KeyCommandNull()
 }
 
 void KeyCommandNull::Run(PlayerBase&){
-
+	
 }

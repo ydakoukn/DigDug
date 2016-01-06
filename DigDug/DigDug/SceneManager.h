@@ -4,23 +4,6 @@
 #include <unordered_map>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #include <Direct3DManager.h>
 class SceneBase;
 

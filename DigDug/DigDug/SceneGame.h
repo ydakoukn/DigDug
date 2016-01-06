@@ -1,7 +1,5 @@
 #ifndef _SCENEGAME_H
 #define _SCENEGAME_H
-
-
 #include <ShaderBase.h>
 #include <TextureShader.h>
 

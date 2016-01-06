@@ -90,7 +90,7 @@ void Stage1::Initialize(const std::shared_ptr<DxCamera::ViewCamera> camera){
 			m_cameraAddress = &(*camera.get());
 			m_stage[y][x]->Initialize(m_cameraAddress, m_resource[stageNumber].m_fileName);
 			m_stage[y][x]->Translation(DxMath::Vector3(tipX, tipY, 0));
-			m_stage[y][x]->Scaling(DxMath::Vector3(kStageTipSize / 2, kStageTipSize / 2, 10));
+			m_stage[y][x]->Scaling(DxMath::Vector3(kTipSize / 2, kTipSize / 2, 10));
 
 		}
 	}
@@ -115,15 +115,15 @@ void Stage1::StageRender(const std::shared_ptr<DxShader::ShaderBase> shader){
 }
 
 void Stage1::ChangeStageNumber(DxMath::Vector3 position,const int stageNumber){
-	int x = (position._x + 5) / kStageTipSize;
-	int y = (position._y + 5) / kStageTipSize;
+	int x = (position._x + 5) / kTipSize;
+	int y = (position._y + 5) / kTipSize;
 
 	float tipX = x * 20;
 	float tipY = y * 20;
 
 	m_stage[y][x]->Initialize(m_cameraAddress, m_resource[stageNumber].m_fileName);
 	m_stage[y][x]->Translation(DxMath::Vector3(tipX, tipY, 0));
-	m_stage[y][x]->Scaling(DxMath::Vector3(kStageTipSize / 2, kStageTipSize / 2, 10));
+	m_stage[y][x]->Scaling(DxMath::Vector3(kTipSize / 2, kTipSize / 2, 10));
 
 	return;
 }
@@ -137,8 +137,8 @@ int Stage1::GetStageData(const int x,const int y)const{
 }
 
 int Stage1::GetStageData(DxMath::Vector3 input){
-	int x = (input._x+5) / kStageTipSize;
-	int y = (input._y+5) / kStageTipSize;
+	int x = (input._x+5) / kTipSize;
+	int y = (input._y+5) / kTipSize;
 
 	return m_stageData[y][x];
 }

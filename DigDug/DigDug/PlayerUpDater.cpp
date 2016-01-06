@@ -35,7 +35,7 @@ void PlayerUpdater::Run(){
 
 	std::unique_ptr<KeyCommand> command = GameController::Get().GetKeyCommnad();
 	command->Run(*this);
-	
+
 	return;
 }
 

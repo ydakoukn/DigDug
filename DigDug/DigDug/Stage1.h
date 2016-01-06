@@ -1,7 +1,5 @@
 #ifndef _STAGE1_H
 #define _STAGE1_H
-// 標準ライブラリ
-
 // 自作ライブラリ
 #include <Cube.h>
 #include <ShaderBase.h>
@@ -11,7 +9,7 @@
 namespace{
 	const int kStageWidth = 16;
 	const int kStageHeight = 20;
-	const int kStageTipSize = 20;
+	const int kTipSize = 20;
 	const int kResource = 7;
 
 	const int kSpace = 0;
