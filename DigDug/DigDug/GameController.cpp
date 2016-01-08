@@ -43,6 +43,7 @@ void GameController::KeyUp(unsigned int input){
 
 // ƒL[‚ª‰Ÿ‚³‚ê‚½‚Æ‚«
 bool GameController::IsKeyDown(unsigned int key){
+
 	return m_keys[key];
 }
 

@@ -24,7 +24,7 @@ class GameController
 	private:
 		bool m_keys[kMaxKeyType];
 		static GameController* m_controller;
-
+	
 	private:
 		GameController();
 		GameController(GameController&);

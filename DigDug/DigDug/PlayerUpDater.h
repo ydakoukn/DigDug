@@ -8,8 +8,9 @@
 #include <ModelBase.h>
 
 #include "PlayerBase.h"
+#include "KeyCommand.h"
 class PlayerUpdater :
-	private PlayerBase
+	PlayerBase
 {
 	
 	public:
@@ -18,12 +19,13 @@ class PlayerUpdater :
 		~PlayerUpdater();
 		bool Initialize(const std::shared_ptr<DxModel::ModelBase>&);
 		void Frame();
+		void EventFrame(KeyCommand* command);
 		DxMath::Vector3& GetVector();
 
 	private:
 	
 		void Shutdown();
-		void Run()override;
+		void RunCommand();
 
 };
 

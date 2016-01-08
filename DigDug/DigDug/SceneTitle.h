@@ -1,6 +1,8 @@
 #ifndef _SCENETITLE_H
 #define _SCENETITLE_H
 #include "SceneBase.h"
+// フレームワーク
+#include <Rectangle.h>
 class SceneTitle :
 	public SceneBase
 {
@@ -15,6 +17,11 @@ class SceneTitle :
 
 	public:
 		static const std::string m_thisName;
+
+	private:
+		std::unique_ptr<DxModel::ModelBase> m_titleBackground;
+		std::shared_ptr<DxCamera::ViewCamera> m_camera;
+		std::shared_ptr<DxShader::TextureShader> m_textureShader;
 };
 
 #endif

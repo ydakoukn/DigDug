@@ -26,11 +26,7 @@ class PlayerRender :
 		bool Initialize();
 		void Frame(const std::shared_ptr<DxModel::ModelBase>&,const std::shared_ptr<DxShader::ShaderBase>);
 	private:
-
-		void Run()override;
 		void Shutdown();
-	private:
-
 };
 
 #endif

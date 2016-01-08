@@ -8,7 +8,8 @@ Stage1::StageResorces Stage1::m_resource[] = {
 	{ "res/soil01.png" },
 	{ "res/sky.png" },
 	{ "res/blackSpace.png" },
-	{ "res/player.png" }
+	{ "res/player.png" },
+	{ "res/banana.png" }
 };
 
 int Stage1::m_stageData[kStageHeight][kStageWidth] = {
@@ -25,7 +26,7 @@ int Stage1::m_stageData[kStageHeight][kStageWidth] = {
 	{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
 	{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
 
-	{ 3, 3, 3, 3, 3, 3, 6, 6, 6, 3, 3, 3, 3, 3, 3, 3 },
+	{ 3, 3, 3, 3, 3, 3, 6, 20, 6, 3, 3, 3, 3, 3, 3, 3 },
 	{ 3, 3, 6, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
 	{ 3, 3, 6, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
 	{ 3, 3, 6, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
@@ -35,7 +36,7 @@ int Stage1::m_stageData[kStageHeight][kStageWidth] = {
 	{ 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 6, 6, 6, 6, 4 },
 	{ 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 },
 
-	{ 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10 },
 	{ 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 },
 	{ 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 },
 
@@ -67,7 +68,7 @@ void Stage1::ShutdownStage(){
 
 
 void Stage1::Initialize(const std::shared_ptr<DxCamera::ViewCamera> camera){
-
+	m_cameraAddress = camera.get();
 	for (int height = 0; height < kStageHeight; ++height)
 	{
 		for (int width = 0; width < kStageWidth; ++width)
@@ -78,24 +79,31 @@ void Stage1::Initialize(const std::shared_ptr<DxCamera::ViewCamera> camera){
 
 			int stageNumber = m_stageData[y][x];
 			
-			float tipX = x*20;
-			float tipY = y*20;
+			float tipX = x*kTipSize;
+			float tipY = y*kTipSize;
 
 			if (stageNumber == kPlayer)
 			{
-				m_playerInitializePosition.x = tipX;
-				m_playerInitializePosition.y = tipY;
-				stageNumber = kSky;
+				stageNumber = kBanana;
 			}
-			m_cameraAddress = &(*camera.get());
+
+			if (stageNumber == kStartPoint||stageNumber==kPlayerLife)
+			{
+				stageNumber = kBlackSpace;
+			}
+		
 			m_stage[y][x]->Initialize(m_cameraAddress, m_resource[stageNumber].m_fileName);
-			m_stage[y][x]->Translation(DxMath::Vector3(tipX, tipY, 0));
-			m_stage[y][x]->Scaling(DxMath::Vector3(kTipSize / 2, kTipSize / 2, 10));
+			m_stage[y][x]->Translation(DxMath::Vector3(tipX, tipY, NULL));
+
+			// オブジェクトが重ならない用にする
+			// 独自フレームワークのオブジェクトは中心点が真中にある
+			m_stage[y][x]->Scaling(DxMath::Vector3(kTipSize/2, kTipSize/2, kTipSize/2));
 
 		}
 	}
 }
 
+//　
 void Stage1::StageRender(const std::shared_ptr<DxShader::ShaderBase> shader){
 	for (int height = 0; height < kStageHeight; ++height)
 	{
@@ -104,22 +112,17 @@ void Stage1::StageRender(const std::shared_ptr<DxShader::ShaderBase> shader){
 			const int y = height;
 			const int x = width;
 			m_stage[y][x]->Render(shader, DxModel::eRenderWay::eTexture);
-
-			if (m_stageData[y][x] == kPlayerLife)
-			{
-				m_stage[y][x]->Rotation()._y -= 1;
-			}
-			
 		}
 	}
 }
 
+// 指定した場所のステージの番号を置き換える
 void Stage1::ChangeStageNumber(DxMath::Vector3 position,const int stageNumber){
-	int x = (position._x + 5) / kTipSize;
-	int y = (position._y + 5) / kTipSize;
+	int x = (position._x + (kTipSize/2)) / kTipSize;
+	int y = (position._y + (kTipSize / 2)) / kTipSize;
 
-	float tipX = x * 20;
-	float tipY = y * 20;
+	float tipX = x * kTipSize;
+	float tipY = y * kTipSize;
 
 	m_stage[y][x]->Initialize(m_cameraAddress, m_resource[stageNumber].m_fileName);
 	m_stage[y][x]->Translation(DxMath::Vector3(tipX, tipY, 0));
@@ -137,8 +140,8 @@ int Stage1::GetStageData(const int x,const int y)const{
 }
 
 int Stage1::GetStageData(DxMath::Vector3 input){
-	int x = (input._x+5) / kTipSize;
-	int y = (input._y+5) / kTipSize;
+	int x = (input._x + (kTipSize / 2)) / kTipSize;
+	int y = (input._y + (kTipSize / 2)) / kTipSize;
 
 	return m_stageData[y][x];
 }

@@ -13,10 +13,7 @@ class SceneBase
 	public:
 		SceneBase(const std::string &name,SceneManager& manager):
 		m_sceneName(name),
-		m_manager(manager){
-			m_afterSceneName = "null";
-			m_isChange = false;
-		}
+		m_manager(manager){}
 
 		virtual ~SceneBase() = default;
 		
@@ -27,21 +24,17 @@ class SceneBase
 		
 		const std::string GetName(){ return m_sceneName; }
 		const std::string GetChangeAfterSceneName(){ return m_afterSceneName; }
-		bool IsChange()const{ return m_isChange; }
-
 	protected:
 		SceneManager& m_manager;
-		void SetChangeScene(const bool flg,std::string afterSceneName){ 
-			m_isChange = flg; 
-			m_afterSceneName = afterSceneName;
+		void SetChangeScene(std::string afterSceneName){ 
+			m_manager.SceneChanger(afterSceneName);
 		}
 		
 
 	private:
 		const std::string m_sceneName;
 		std::string m_afterSceneName;
-		bool m_isChange;
-		
+
 };
 
 #endif

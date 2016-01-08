@@ -19,7 +19,7 @@ bool SceneManager::Initialize(Dx11::Direct3DManager* direct3d,HWND& hWNd){
 	Register(std::make_shared<SceneTitle>(this));
 	Register(std::make_shared<SceneGame>(this));
 
-	m_currentScene = FindScene(SceneGame::m_thisName);
+	m_currentScene = FindScene(SceneTitle::m_thisName);
 	if (!m_currentScene){
 		
 		return false;
@@ -68,10 +68,6 @@ bool SceneManager::SceneUpdatar(){
 	}
 	m_currentScene->Updata();
 
-	if (m_currentScene->IsChange())
-	{
-		SceneChanger(m_currentScene->GetChangeAfterSceneName());
-	}
 	m_gameState = eGameState::eRender;
 	return true;
 }
