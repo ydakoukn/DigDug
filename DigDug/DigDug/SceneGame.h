@@ -10,6 +10,9 @@ class SceneGame :
 	public SceneBase
 {
 	public:
+		static const std::string m_thisName;
+
+	public:
 		SceneGame(SceneManager*);
 		~SceneGame();
 
@@ -18,17 +21,17 @@ class SceneGame :
 		void Render()override;
 		void Shutdown()override;
 
-	public:
-		static const std::string m_thisName;
-
 	private:
+
+		// このシーンに必要な状態
 		enum class eState{
-			eNull,
+			eNull = 0,
 			ePause,
 			eOpenning,
 			eMain,
 			eEnd,
 		};
+
 	private:
 		std::unique_ptr<Stage1> m_stage1;
 		std::shared_ptr<DxCamera::ViewCamera> m_camera;
@@ -36,9 +39,10 @@ class SceneGame :
 		std::unique_ptr<PlayerManager> m_player;
 		std::shared_ptr <DxModel::ModelBase> m_pauseUI;
 
-		POINT m_startPoint;
+		POINT m_openningPoint;
 		static eState m_nowState;
 		static eState m_prevState;
+
 	private:
 		void Openning();    // オープニング用
 		void Main();        // ゲームのメイン、プレイヤーが操作できる

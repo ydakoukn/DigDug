@@ -1,9 +1,6 @@
 #ifndef _GAMEFRAME_H
 #define _GAMEFRAME_H
 
-
-
-
 // 標準ライブラリ
 #include <memory>
 
@@ -14,6 +11,7 @@
 
 // 自作クラス
 #include "SceneManager.h"
+
 // constants
 namespace{
 	const bool kFullScreen= false;
@@ -40,7 +38,6 @@ class GameFrame
 		bool Updatar();
 
 		void Shutdown();
-		
 };
 
 #endif

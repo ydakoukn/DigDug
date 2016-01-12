@@ -36,9 +36,8 @@ class Stage1
 		Stage1();
 		Stage1(Stage1&);
 		~Stage1();
-		void Initialize(const std::shared_ptr<DxCamera::ViewCamera>);
+		bool Initialize(const std::shared_ptr<DxCamera::ViewCamera>);
 		void StageRender(const std::shared_ptr<DxShader::ShaderBase>);
-		void Shutdown();
 
 		int GetStageData(const int,const int)const;
 
@@ -49,12 +48,14 @@ class Stage1
 		struct StageResorces{
 			std::string m_fileName;
 		};
+
 	private:
 		void ShutdownStage();
+
 	private:
 
-		static int m_stageData[kStageHeight][kStageWidth]; // データ用
-		std::shared_ptr<DxModel::ModelBase> m_stage[kStageHeight][kStageWidth];  // 描画用
+		static int m_stageData[kStageHeight][kStageWidth]; // 初期状態保存用
+		std::shared_ptr<DxModel::ModelBase> m_stage[kStageHeight][kStageWidth];  // オブジェクト作成用
 		static StageResorces m_resource[];
 		DxCamera::ViewCamera* m_cameraAddress;
 };

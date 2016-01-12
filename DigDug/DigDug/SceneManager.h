@@ -21,7 +21,7 @@ class SceneManager
 		void SceneChanger(std::string);
 		void SceneShutdown();
 
-		void Shutdown();
+		
 
 	private:
 		enum class eGameState{
@@ -36,6 +36,8 @@ class SceneManager
 		void Register(const std::shared_ptr<SceneBase>);
 		std::shared_ptr<SceneBase> FindScene(std::string);
 		void SceneInitialize();
+		void Shutdown();
+
 	private:
 		static std::unordered_map<std::string, std::shared_ptr<SceneBase>> m_scenesMap;
 		static std::shared_ptr<SceneBase> m_currentScene;

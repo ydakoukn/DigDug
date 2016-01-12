@@ -20,7 +20,7 @@ PlayerManager::~PlayerManager(){
 	Shutdown();
 }
 
-
+// 初期化処理
 bool PlayerManager::Initialize(const std::shared_ptr<DxCamera::ViewCamera> camera){
 	bool result;
 
@@ -46,7 +46,7 @@ bool PlayerManager::Initialize(const std::shared_ptr<DxCamera::ViewCamera> camer
 	return true;
 }
 
-
+// 描画処理
 void PlayerManager::Render(const std::shared_ptr<DxShader::ShaderBase> shader){
 	m_render->Frame(m_playerModel,shader);
 
@@ -56,9 +56,11 @@ void PlayerManager::Render(const std::shared_ptr<DxShader::ShaderBase> shader){
 	}
 }
 
-
+// 更新処理
 void PlayerManager::Update(){
 	m_updater->Frame();
+
+	// 進める範囲の指定
 	if (GetPosition()._x < kX)
 	{
 		m_updater->GetVector()._x = kX;
@@ -78,7 +80,8 @@ void PlayerManager::Update(){
 	{
 		m_updater->GetVector()._y = kHeight;
 	}
-
+	
+	// ライフをくるくる回す処理 
 	for (auto index : m_life)
 	{
 		index->Rotation()._y -= 1;
@@ -89,12 +92,12 @@ void PlayerManager::EventUpdater(KeyCommand* command){
 	m_updater->EventFrame(command);
 }
 
+// 現在の位置取得用
 DxMath::Vector3& PlayerManager::GetPosition(){
-
 	return m_updater->GetVector();
-	
 }
 
+// ライフの初期化処理
 void PlayerManager::SetLife(int x, int y){
 
 	float tipX = x * kTipSize;
@@ -106,6 +109,7 @@ void PlayerManager::SetLife(int x, int y){
 	m_life.push_back(pushObject);
 }
 
+// 解放処理
 void PlayerManager::Shutdown(){
 	if (m_updater)
 	{

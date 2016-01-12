@@ -49,6 +49,7 @@ Stage1::Stage1(){
 Stage1::Stage1(Stage1& other){}
 
 Stage1::~Stage1(){
+	ShutdownStage();
 }
 
 void Stage1::ShutdownStage(){
@@ -67,7 +68,7 @@ void Stage1::ShutdownStage(){
 }
 
 
-void Stage1::Initialize(const std::shared_ptr<DxCamera::ViewCamera> camera){
+bool Stage1::Initialize(const std::shared_ptr<DxCamera::ViewCamera> camera){
 	m_cameraAddress = camera.get();
 	for (int height = 0; height < kStageHeight; ++height)
 	{
@@ -101,6 +102,7 @@ void Stage1::Initialize(const std::shared_ptr<DxCamera::ViewCamera> camera){
 
 		}
 	}
+	return true;
 }
 
 //　
@@ -131,14 +133,12 @@ void Stage1::ChangeStageNumber(DxMath::Vector3 position,const int stageNumber){
 	return;
 }
 
-void Stage1::Shutdown(){
-	ShutdownStage();
-}
-
+// 指定番号のステージの番号を取得
 int Stage1::GetStageData(const int x,const int y)const{
 	return m_stageData[y][x];
 }
 
+// Vector3型から現在の位置を取得
 int Stage1::GetStageData(DxMath::Vector3 input){
 	int x = (input._x + (kTipSize / 2)) / kTipSize;
 	int y = (input._y + (kTipSize / 2)) / kTipSize;

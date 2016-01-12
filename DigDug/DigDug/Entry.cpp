@@ -4,7 +4,6 @@
 
 */
 
-
 #include <iostream>
 #pragma comment (lib,"Dx11FrameWork.lib")
 #include "System.h"

@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "GameFrame.h"
 #include "SceneGame.h"
 GameFrame::GameFrame()
@@ -76,7 +74,6 @@ void GameFrame::Shutdown(){
 
 	if (m_sceneManager)
 	{
-		m_sceneManager->Shutdown();
 		m_sceneManager.release();
 		m_sceneManager = nullptr;
 	}

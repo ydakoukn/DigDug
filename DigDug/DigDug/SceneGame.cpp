@@ -41,7 +41,6 @@ void SceneGame::Shutdown(){
 	}
 	if (m_stage1)
 	{
-		m_stage1->Shutdown();
 		m_stage1.release();
 		m_stage1 = nullptr;
 	}
@@ -63,6 +62,7 @@ void SceneGame::Initialize(Dx11::Direct3DManager* direct3d, HWND hWnd){
 	bool result;
 	std::cout << "Start game" << std::endl;
 
+	// カメラ作成
 	m_camera = std::make_shared<DxCamera::ViewCamera>();
 	if (!m_camera)
 	{
@@ -70,10 +70,10 @@ void SceneGame::Initialize(Dx11::Direct3DManager* direct3d, HWND hWnd){
 		return;
 	}
 	
-	// カメラの位置を設定
+	// カメラの初期位置を設定
 	m_camera->Translation(DxMath::Vector3(kCameraDefaultX, kCameraDefaultY, kCameraDefaultZ));
 	
-
+	// シェーダーの作成
 	m_textureShader = std::make_shared<DxShader::TextureShader>();
 	if (!m_textureShader)
 	{
@@ -82,6 +82,7 @@ void SceneGame::Initialize(Dx11::Direct3DManager* direct3d, HWND hWnd){
 		return;
 	}
 
+	// 使うシェーダーファイルの設定
 	result = m_textureShader->Initialize(direct3d->GetDevice(), hWnd, L"Shader/texture.vs", L"Shader/texture.ps");
 	if (!result)
 	{
@@ -89,14 +90,21 @@ void SceneGame::Initialize(Dx11::Direct3DManager* direct3d, HWND hWnd){
 		return;
 	}
 
+	// ステージの作成
 	m_stage1 = std::make_unique<Stage1>();
 	if (!m_stage1)
 	{
 		assert(!"シェーダー作成失敗");
 		return;
 	}
-	m_stage1->Initialize(m_camera);
+	result = m_stage1->Initialize(m_camera);
+	if (!result)
+	{
+		assert(!"初期化失敗");
+		return;
+	}
 
+	// プレイヤーの作成
 	m_player = std::make_unique<PlayerManager>();
 	if (!m_player)
 	{
@@ -110,6 +118,7 @@ void SceneGame::Initialize(Dx11::Direct3DManager* direct3d, HWND hWnd){
 		return;
 	}
 
+	// UIの画像の読み込み
 	m_pauseUI = std::make_shared<DxModel::Rectangle>();
 	result = m_pauseUI->Initialize(m_camera.get(), "res/Title.png");
 	if (!result)
@@ -117,9 +126,12 @@ void SceneGame::Initialize(Dx11::Direct3DManager* direct3d, HWND hWnd){
 		assert(!"UI初期化失敗");
 		return;
 	}
+	// 大きさの設定
 	m_pauseUI->Scaling() = 100;
+	// 初期位置の設定
 	m_pauseUI->Translation()._x = kPauseBackgroundX;
 	m_pauseUI->Translation()._y = kPauseBackgroundY;
+
 	// serch player first position
 	for (int y = 0; y < kStageHeight; ++y)
 	{
@@ -133,11 +145,11 @@ void SceneGame::Initialize(Dx11::Direct3DManager* direct3d, HWND hWnd){
 				m_player->GetPosition()._z = kFrontLayer;
 			}
 
-			// 最初の指定位置を取得
+			// オープニング時に進む指定位置を取得
 			if (m_stage1->GetStageData(x, y) == kStartPoint)
 			{
-				m_startPoint.x = x*kTipSize;
-				m_startPoint.y = y*kTipSize;
+				m_openningPoint.x = x*kTipSize;
+				m_openningPoint.y = y*kTipSize;
 			}
 
 			// ライフの表示場所を取得
@@ -152,7 +164,7 @@ void SceneGame::Initialize(Dx11::Direct3DManager* direct3d, HWND hWnd){
 	return;
 }
 
-
+//
 void SceneGame::Render(){
 
 	m_camera->Render();
@@ -164,6 +176,7 @@ void SceneGame::Render(){
 	return;
 }
 
+//
 void SceneGame::Updata(){
 	
 	IsPause();
@@ -179,25 +192,8 @@ void SceneGame::Updata(){
 	return;
 }
 
-// 穴を掘る
-void SceneGame::DigHole(){
-
-	const int number = m_stage1->GetStageData(m_player->GetPosition());
-
-	switch (number)
-	{
-	case kSoilLevel1:
-	case kSoilLevel2:
-	case kSoilLevel3:
-	case kSoilLevel4:
-
-		m_stage1->ChangeStageNumber(m_player->GetPosition(), kBlackSpace);
-		break;
-	}
-
-}
-
-// 最初のオープニング用
+// 最初のオープニング
+// （最初のプレイヤー操作に関係なく自動で進む処理）
 void SceneGame::Openning(){
 	if (m_nowState != eState::eOpenning)
 	{
@@ -208,13 +204,14 @@ void SceneGame::Openning(){
 	static bool yflg = false;
 	std::shared_ptr<KeyCommand> command;
 
+	// xflgがfalseの状態ならx方向に進む
 	if (!xflg)
 	{
-		if (m_player->GetPosition()._x > m_startPoint.x)
+		if (m_player->GetPosition()._x > m_openningPoint.x)
 		{
 			command = std::make_shared<KeyCommandA>();
 			m_player->EventUpdater(command.get());
-			if (m_player->GetPosition()._x == m_startPoint.x)
+			if (m_player->GetPosition()._x == m_openningPoint.x)
 			{
 				xflg = true;
 			}
@@ -224,11 +221,11 @@ void SceneGame::Openning(){
 	// x方向を進み終えてからy方向に移動
 	if (xflg)
 	{
-		if (m_player->GetPosition()._y > m_startPoint.y)
+		if (m_player->GetPosition()._y > m_openningPoint.y)
 		{
 			command = std::make_shared<KeyCommandS>();
 			m_player->EventUpdater(command.get());
-			if (m_player->GetPosition()._y == m_startPoint.y)
+			if (m_player->GetPosition()._y == m_openningPoint.y)
 			{
 				yflg = true;
 			}
@@ -243,6 +240,23 @@ void SceneGame::Openning(){
 		m_nowState = eState::eMain;
 	}
 }
+
+
+// 穴を掘る
+void SceneGame::DigHole(){
+
+	const int number = m_stage1->GetStageData(m_player->GetPosition());
+
+	// 土ブロックのみを削除
+	if (number == kSoilLevel1 || number == kSoilLevel2 ||
+		number == kSoilLevel3 || number == kSoilLevel4)
+	{
+		m_stage1->ChangeStageNumber(m_player->GetPosition(), kBlackSpace);
+	}
+
+	return;
+}
+
 
 // ゲームのメイン
 void SceneGame::Main(){

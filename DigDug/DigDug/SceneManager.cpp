@@ -9,8 +9,11 @@ SceneManager::eGameState SceneManager::m_gameState = SceneManager::eGameState::e
 
 SceneManager::SceneManager(){}
 SceneManager::SceneManager(SceneManager& other){}
-SceneManager::~SceneManager(){}
+SceneManager::~SceneManager(){
+	Shutdown();
+}
 
+//
 bool SceneManager::Initialize(Dx11::Direct3DManager* direct3d,HWND& hWNd){
 
 	m_direct3d = &(*direct3d);
@@ -30,16 +33,19 @@ bool SceneManager::Initialize(Dx11::Direct3DManager* direct3d,HWND& hWNd){
 	return true;
 }
 
+// 登録処理
 void SceneManager::Register(std::shared_ptr<SceneBase> registerScene){
 	m_scenesMap.insert(std::make_pair(registerScene->GetName(), registerScene));
 }
 
+// 探索用
 std::shared_ptr<SceneBase> SceneManager::FindScene(std::string name){
 	auto findMap = m_scenesMap.find(name);
 
 	return findMap->second;
 }
 
+// シーンの初期化処理
 void SceneManager::SceneInitialize(){
 	if (m_gameState != eGameState::eInitialize)
 	{
@@ -50,6 +56,7 @@ void SceneManager::SceneInitialize(){
 	m_gameState = eGameState::eRender;
 }
 
+// シーンの描画処理
 bool SceneManager::SceneRender(){
 	if (m_gameState != eGameState::eRender)
 	{
@@ -61,6 +68,7 @@ bool SceneManager::SceneRender(){
 	return true;
 }
 
+// シーンの更新処理
 bool SceneManager::SceneUpdatar(){
 	if (m_gameState != eGameState::eUpData)
 	{
@@ -72,7 +80,7 @@ bool SceneManager::SceneUpdatar(){
 	return true;
 }
 
-
+// シーンの解放処理
 void SceneManager::SceneShutdown(){
 	if (m_gameState != eGameState::eShutdown)
 	{
@@ -82,6 +90,7 @@ void SceneManager::SceneShutdown(){
 	return;
 }
 
+// 解放処理
 void SceneManager::Shutdown(){
 	m_currentScene.reset();
 	m_currentScene = nullptr;
