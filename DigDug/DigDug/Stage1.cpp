@@ -21,19 +21,19 @@ int Stage1::m_stageData[kStageHeight][kStageWidth] = {
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 1, 1, 1 },
 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 1, 1, 1, 1 },
 
-	{ 2, 2, 2, 6, 6, 6, 6, 2, 2, 2, 2, 6, 2, 2, 2, 2 },
+	{ 2, 2, 2, 6, 6, 9, 6, 2, 2, 2, 2, 9, 2, 2, 2, 2 },
 	{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 2, 2, 2, 2 },
 	{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
 	{ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
 
 	{ 3, 3, 3, 3, 3, 3, 6, 20, 6, 3, 3, 3, 3, 3, 3, 3 },
 	{ 3, 3, 6, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
-	{ 3, 3, 6, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
+	{ 3, 3, 9, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
 	{ 3, 3, 6, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
 
 	{ 4, 4, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 },
 	{ 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 },
-	{ 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 6, 6, 6, 6, 4 },
+	{ 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 6, 9, 6, 6, 4 },
 	{ 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 },
 
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10 },
@@ -88,7 +88,7 @@ bool Stage1::Initialize(const std::shared_ptr<DxCamera::ViewCamera> camera){
 				stageNumber = kBanana;
 			}
 
-			if (stageNumber == kStartPoint||stageNumber==kPlayerLife)
+			if (stageNumber == kStartPoint||stageNumber==kPlayerLife||stageNumber==kEnemy)
 			{
 				stageNumber = kBlackSpace;
 			}
@@ -130,7 +130,18 @@ void Stage1::ChangeStageNumber(DxMath::Vector3 position,const int stageNumber){
 	m_stage[y][x]->Translation(DxMath::Vector3(tipX, tipY, 0));
 	m_stage[y][x]->Scaling(DxMath::Vector3(kTipSize / 2, kTipSize / 2, 10));
 
+	m_stageData[y][x] = 0;
 	return;
+}
+
+void Stage1::ChangeStageNumber(const int x, const int y, const int number){
+
+
+	m_stage[y][x]->Initialize(m_cameraAddress, m_resource[number].m_fileName);
+	m_stage[y][x]->Translation(DxMath::Vector3(x*kTipSize, y*kTipSize, 0));
+	m_stage[y][x]->Scaling(DxMath::Vector3(kTipSize / 2, kTipSize / 2, 10));
+
+	m_stageData[y][x] = 0;
 }
 
 // 指定番号のステージの番号を取得

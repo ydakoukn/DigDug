@@ -6,6 +6,8 @@
 #include "SceneBase.h"
 #include "Stage1.h"
 #include "PlayerManager.h"
+#include "EnemyManager.h"
+#include "Spawner.h"
 class SceneGame :
 	public SceneBase
 {
@@ -38,7 +40,8 @@ class SceneGame :
 		std::shared_ptr<DxShader::TextureShader> m_textureShader;
 		std::unique_ptr<PlayerManager> m_player;
 		std::shared_ptr <DxModel::ModelBase> m_pauseUI;
-
+		std::unique_ptr<EnemyManager> m_enemyManager;
+		std::unique_ptr<Spawner> m_spawner;
 		POINT m_openningPoint;
 		static eState m_nowState;
 		static eState m_prevState;

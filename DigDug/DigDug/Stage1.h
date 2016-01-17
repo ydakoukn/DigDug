@@ -24,6 +24,7 @@ namespace{
 	const int kBlackSpace = 6;
 	const int kPlayerLife = 7;
 	const int kBanana = 8;
+	const int kEnemy = 9;
 	
 	/*	ÇªÇÃëºÅ@*/
 	const int kPlayer = 10;
@@ -43,7 +44,7 @@ class Stage1
 
 		int GetStageData(DxMath::Vector3);
 		void ChangeStageNumber(DxMath::Vector3,const int);
-
+		void ChangeStageNumber(const int x,const int y, const int);
 	private:
 		struct StageResorces{
 			std::string m_fileName;

@@ -27,10 +27,10 @@ class PlayerManager
 		DxMath::Vector3& GetPosition();
 		void EventUpdater(KeyCommand*);
 
-		void Collide();
 		void SetLife(int x,int y);
 	private:
 		void Shutdown();
+
 	private:
 		std::shared_ptr<PlayerUpdater> m_updater;
 		std::unique_ptr<PlayerRender> m_render;

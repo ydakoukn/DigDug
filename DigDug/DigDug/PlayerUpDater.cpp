@@ -26,10 +26,10 @@ bool PlayerUpdater::Initialize(const std::shared_ptr<DxModel::ModelBase>& object
 	object->Translation()._z = GetStatus()._position._z;
 
 	// Set size
-	DxMath::Vector3 scale(kTipSize, kTipSize, kTipSize);
+	DxMath::Vector3 scale(kTipSize/2, kTipSize/2, kTipSize/2);
 	GetStatus()._scale = scale;
 
-	object->Scaling(DxMath::Vector3(GetStatus()._scale._x/2, GetStatus()._scale._y/2, GetStatus()._scale._z/2));
+	object->Scaling(DxMath::Vector3(GetStatus()._scale._x, GetStatus()._scale._y, GetStatus()._scale._z));
 
 	// Å‰‚Í¶‚ğŒü‚¢‚Ä‚¢‚é
 	GetStatus()._rotation._y = kLeft;

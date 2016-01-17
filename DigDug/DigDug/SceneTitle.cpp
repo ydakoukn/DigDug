@@ -50,7 +50,7 @@ void SceneTitle::Initialize(Dx11::Direct3DManager* direct3d, HWND hWnd){
 	m_titleBackground = std::make_unique<DxModel::Rectangle>();
 	m_titleBackground->Initialize(m_camera.get(), "res/Title.png");
 
-	m_titleBackground->Scaling(DxMath::Vector3(60, 50, -10));
+	m_titleBackground->Scaling(DxMath::Vector3(40, 50, -10));
 
 	return;
 }

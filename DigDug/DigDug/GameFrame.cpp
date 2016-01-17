@@ -48,7 +48,7 @@ bool GameFrame::Initialize(POINT screen, HWND hWnd){
 
 bool GameFrame::Updatar(){
 	bool result;
-	m_d3d11Manager->BeginScene(Color(0.5f, 0.5f, 0.5f, 1.0f));
+	m_d3d11Manager->BeginScene(Color(0.0f, 0.0f, 0.0f, 1.0f));
 	result = m_sceneManager->SceneRender();
 	if (!result)
 	{

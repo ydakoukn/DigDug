@@ -16,7 +16,7 @@
 
 
 class PlayerRender :
-	private PlayerBase
+	PlayerBase
 {
 	
 	public:

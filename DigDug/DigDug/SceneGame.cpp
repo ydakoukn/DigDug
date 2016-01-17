@@ -3,6 +3,10 @@
 #include "KeyCommand.h"
 #include "KeyCommandA.h"
 #include "KeyCommandS.h"
+#include "SpawnerFor.h"
+#include "Enemy.h"
+#include "EnemyBase.h"
+#include <CollideBoxOBB.h>
 #include <assert.h>
 namespace{
 	const float kCameraDefaultX = 260.0f;
@@ -118,6 +122,12 @@ void SceneGame::Initialize(Dx11::Direct3DManager* direct3d, HWND hWnd){
 		return;
 	}
 
+	// スポナーの作成
+	m_spawner = std::make_unique<SpawnerFor<Enemy>>();
+
+	// 敵管理オブジェクトの作成
+	m_enemyManager = std::make_unique<EnemyManager>();
+
 	// UIの画像の読み込み
 	m_pauseUI = std::make_shared<DxModel::Rectangle>();
 	result = m_pauseUI->Initialize(m_camera.get(), "res/Title.png");
@@ -158,6 +168,19 @@ void SceneGame::Initialize(Dx11::Direct3DManager* direct3d, HWND hWnd){
 				m_player->SetLife(x, y);
 			}
 
+			static int i = 0;
+			// 敵の初期位置
+			if (m_stage1->GetStageData(x, y) == kEnemy)
+			{
+				std::shared_ptr<EnemyBase> enemy = m_spawner->Create();
+				enemy->Initialize(m_camera, "res/teki2.png");
+				enemy->SetPosition(DxMath::Vector3(x*kTipSize, y*kTipSize, kFrontLayer));
+
+				// 自分の監視対象にする
+				m_enemyManager->AddChild(enemy);
+
+			}
+
 		}
 	}
 
@@ -173,6 +196,7 @@ void SceneGame::Render(){
 
 	m_player->Render(m_textureShader);
 
+	m_enemyManager->Render(m_textureShader);
 	return;
 }
 
@@ -252,7 +276,20 @@ void SceneGame::DigHole(){
 		number == kSoilLevel3 || number == kSoilLevel4)
 	{
 		m_stage1->ChangeStageNumber(m_player->GetPosition(), kBlackSpace);
+		
 	}
+
+	for (auto enemy : m_enemyManager->GetEnemyList())
+	{
+		DxMath::Vector3 position = enemy->GetProperty()._transform._translation;
+		const int enemyNumber = m_stage1->GetStageData(position);
+		if (enemyNumber == kSoilLevel1 || enemyNumber == kSoilLevel2 ||
+			enemyNumber == kSoilLevel3 || enemyNumber == kSoilLevel4)
+		{
+			enemy->Collide();
+		}
+	}
+	
 
 	return;
 }
@@ -267,7 +304,7 @@ void SceneGame::Main(){
 	}
 	m_player->Update();
 
-	
+	m_enemyManager->Updater();
 	return;
 }
 
